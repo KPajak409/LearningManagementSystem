@@ -1,3 +1,19 @@
 ﻿@{
-    Layout = "_Layout";
+    if (this.User.IsInRole("Admin"))
+    {
+        Layout = "\\Shared\\_Layout.cshtml";
+    }  
+    else if (this.User.IsInRole("Teacher") )
+    {
+        Layout = "\\Shared\\_LayoutTeacher.cshtml";
+    }   
+    else if (this.User.IsInRole("Student"))
+    {
+        Layout = "\\Shared\\_LayoutStudent.cshtml";
+    }
+    else if (this.User.Identity.IsAuthenticated)
+    {
+        Layout = null;
+    }
+    
 }
