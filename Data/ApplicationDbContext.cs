@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using LMS.Dtos;
 
 namespace LMS.Data
 {
@@ -19,6 +20,7 @@ namespace LMS.Data
         {
             base.OnModelCreating(builder);
         }
+        public DbSet<LMS.Dtos.CreateCourseDto> CreateCourseDto { get; set; }
     
     }
 }

@@ -22,6 +22,8 @@ builder.Services.AddControllersWithViews().AddRazorPagesOptions(options => {
     options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
 });
 builder.Services.AddScoped<DbInitializer>();
+builder.Services.AddScoped<ApplicationMappingProfile>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

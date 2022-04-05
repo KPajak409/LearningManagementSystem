@@ -1,19 +1,17 @@
 ﻿@{
-    if (this.User.IsInRole("Admin"))
+    if(User.IsInRole("Student"))
     {
-        Layout = "\\Shared\\_Layout.cshtml";
-    }  
-    else if (this.User.IsInRole("Teacher") )
+        Layout = "_LayoutStudent";
+    } 
+    else if(User.IsInRole("Teacher"))
     {
-        Layout = "\\Shared\\_LayoutTeacher.cshtml";
-    }   
-    else if (this.User.IsInRole("Student"))
+        Layout = "_LayoutTeacher";
+    } 
+    else if(User.IsInRole("Admin"))
     {
-        Layout = "\\Shared\\_LayoutStudent.cshtml";
-    }
-    else if (this.User.Identity.IsAuthenticated)
-    {
+        Layout = "_LayoutAdmin";
+    } 
+    else
         Layout = null;
-    }
-    
-}
+}   
+
