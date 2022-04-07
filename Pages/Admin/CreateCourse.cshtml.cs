@@ -9,18 +9,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using LMS.Data;
 using LMS.Dtos;
 using AutoMapper;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
-namespace LMS.Pages.Teacher
+namespace LMS.Pages.Admin
 {
     public class CreateCourseModel : PageModel
     {
         private readonly LMS.Data.ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public CreateCourseModel(LMS.Data.ApplicationDbContext context, IMapper mapper)
+        public CreateCourseModel(LMS.Data.ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
         {
             _context = context;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public IActionResult OnGet()
@@ -29,7 +33,7 @@ namespace LMS.Pages.Teacher
         }
 
         [BindProperty]
-        public CreateCourseDto CreateCourseDto { get; set; }
+        public CreateCourseDto CourseDto { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -38,8 +42,11 @@ namespace LMS.Pages.Teacher
             {
                 return Page();
             }
-            var courseEntity = _mapper.Map<Course>(CreateCourseDto);
-
+            var courseEntity = _mapper.Map<Course>(CourseDto);
+            var user = await _userManager.GetUserAsync(User);
+            courseEntity.PasswordHash = BCrypt.Net.BCrypt.HashPassword(CourseDto.Password);
+            courseEntity.Author = user;
+            courseEntity.AuthorId = user.Id;
             _context.Courses.Add(courseEntity);
             await _context.SaveChangesAsync();
 

@@ -9,9 +9,9 @@ namespace LMS
         public ApplicationMappingProfile()
         {
 
-            CreateMap<Course, CreateCourseDto>()
-                .ForMember(dest => dest.Author,
-                c => c.MapFrom(src => src.Author.FirstName + " " + src.Author.LastName));
+            CreateMap<CreateCourseDto, Course>();
+           
+                
         }
     }
 }

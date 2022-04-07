@@ -20,7 +20,6 @@ namespace LMS.Data
         {
             base.OnModelCreating(builder);
         }
-        public DbSet<LMS.Dtos.CreateCourseDto> CreateCourseDto { get; set; }
     
     }
 }
