@@ -12,7 +12,7 @@ using AutoMapper;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 
-namespace LMS.Pages.Admin
+namespace LMS.Pages.Courses
 {
     public class CreateCourseModel : PageModel
     {

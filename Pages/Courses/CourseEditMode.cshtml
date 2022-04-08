@@ -1,0 +1,70 @@
+﻿@page
+@model LMS.Pages.Courses.CourseEditModeModel
+@{
+    ViewData["Title"] = "CourseEditMode";
+    var authorfullName = Model.Course.Author?.FirstName + Model.Course.Author?.LastName;
+    if (string.IsNullOrEmpty(authorfullName)) 
+        authorfullName = "nieznany";
+}
+
+ <div class="container-fluid">
+    <div class="row border-2 border-bottom">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div>
+                <h1 class="mt-2">@Html.DisplayFor(model => model.Course.Name)</h1>
+                <h4>@authorfullName</h4>
+            </div>
+                <div class="d-flex flex-row align-items-center">              
+                <div> 
+                    <a class="btn btn-secondary me-2" asp-page="./DetailsCourse" style="background-color: rgba(0,0,0,.45)">Edit mode</a>
+                </div>
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                      style="background: rgba(0,0,0,.55)">
+                        Settings
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Users</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      </ul>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+    <div class="row m-3">
+        <a class="btn btn-primary me-2 w-25" style="max-width: 200px;" asp-page="../Sections/CreateSection" asp-for="@Model.Course.Id">Create new section</a>
+    </div>
+    <div class="row second-row scrollable course-section-table">
+   
+        <table class="table table-dark">
+        <tbody>
+        @foreach(var item in Model.Sections) {
+            <tr>
+                <td class="d-flex flex-row justify-content-between">
+                  <span class="fs-5">@Html.DisplayFor(modelitem => item.Title)</span>
+                  <div>
+                      <a class="btn btn-success" asp-page="../Sections/EditSection" asp-route-id="@item.Id">Edit</a> |
+                      <a class="btn btn-danger text-light " asp-page="../Sections/DeleteSection" asp-route-id="@item.Id">Delete</a>
+                  </div>                 
+                </td>             
+                </tr>
+                <tr>
+                @foreach(var activity in item.Activities){}
+                <td>
+                    <div class="list-group">
+                      <a href="#" class="list-group-item list-group-item-action active">Cras justo odio</a>
+                      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                      <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                      <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                      <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+                    </div>
+                </td>
+                  
+                </tr>
+            }            
+        </tbody>
+</table>
+    </div>
+</div>

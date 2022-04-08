@@ -1,0 +1,47 @@
+﻿@page
+@model LMS.Pages.Courses.DeleteCourseModel
+
+@{
+    ViewData["Title"] = "DeleteCourse";
+}
+
+<h1>DeleteCourse</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Course</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Author)
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                var fullName = Model.Course.Author?.FirstName + Model.Course.Author?.LastName;
+                    if (string.IsNullOrEmpty(fullName)) 
+                        fullName = "nieznany";
+            }
+            @fullName
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Description)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Course.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <div>
+            <a href='javascript:history.go(-1)'>Back to list</a>
+        </div>
+    </form>
+</div>

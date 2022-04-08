@@ -1,11 +1,23 @@
-﻿html,body {
-    height: 100vh;
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
-
-
-#map {
+﻿#map {
     height: 100%;
     min-height: 100vh;
+}
+
+.second-row.scrollable {
+    max-height: 65vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll;
+}
+
+.second-row.scrollable::-webkit-scrollbar {
+    display: none;
+}
+
+.second-row.scrollable.course-section-table tr:nth-child(odd) {
+    border-top: 2em solid transparent;
+}
+
+.course-section-table tr:nth-child(even) {
+    border-radius: 20%;
 }

@@ -10,32 +10,32 @@
 </head>
 <body>
 <p class="mb-0">
-    <a class="btn btn-primary" asp-page="CreateCourse">Create New</a>
+    <a class="btn btn-primary" asp-page="../Courses/CreateCourse">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Course[0].Author)
+                @Html.DisplayNameFor(model => model.Courses[0].Author)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Course[0].PasswordHash)
+                @Html.DisplayNameFor(model => model.Courses[0].PasswordHash)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Course[0].Name)
+                @Html.DisplayNameFor(model => model.Courses[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Course[0].Description)
+                @Html.DisplayNameFor(model => model.Courses[0].Description)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Course) {
+    @foreach (var item in Model.Courses) {
             <tr>
             <td>
                 @{
-                    var fullName = item.Author.FirstName + item.Author.LastName;
+                    var fullName = item.Author?.FirstName + item.Author?.LastName;
                     if (string.IsNullOrEmpty(fullName)) 
                         fullName = "nieznany";
                 }
@@ -48,9 +48,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a class="btn btn-warning" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a class="btn btn-danger text-light " asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-success" asp-page="../Courses/EditCourse" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-warning" asp-page="../Courses/DetailsCourse" asp-route-id="@item.Id">Details</a> |
+                <a class="btn btn-danger text-light " asp-page="../Courses/DeleteCourse" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

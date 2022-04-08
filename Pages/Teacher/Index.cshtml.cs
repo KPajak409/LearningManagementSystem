@@ -19,7 +19,7 @@ namespace LMS.Pages.Teacher
             _context = context;
         }
 
-        public IList<Course> Course { get;set; }
+        public IList<LMS.Data.Course> Course { get;set; }
 
         public async Task OnGetAsync()
         {
