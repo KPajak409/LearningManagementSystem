@@ -57,7 +57,7 @@ namespace LMS.Data.Migrations
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Activities", (string)null);
+                    b.ToTable("Activities");
                 });
 
             modelBuilder.Entity("LMS.Data.Answer", b =>
@@ -82,7 +82,7 @@ namespace LMS.Data.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers", (string)null);
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("LMS.Data.Course", b =>
@@ -111,7 +111,7 @@ namespace LMS.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("LMS.Data.Question", b =>
@@ -136,7 +136,7 @@ namespace LMS.Data.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("LMS.Data.Section", b =>
@@ -161,7 +161,7 @@ namespace LMS.Data.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Sections", (string)null);
+                    b.ToTable("Sections");
                 });
 
             modelBuilder.Entity("LMS.Data.User", b =>

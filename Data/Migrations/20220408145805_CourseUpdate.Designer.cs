@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220331190215_BasicEntities")]
-    partial class BasicEntities
+    [Migration("20220408145805_CourseUpdate")]
+    partial class CourseUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

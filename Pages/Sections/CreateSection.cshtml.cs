@@ -7,21 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LMS.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Pages.Sections
 {
-    public class CreateSectionModel : PageModel
+    public class SectionCreateModel : PageModel
     {
         private readonly LMS.Data.ApplicationDbContext _context;
-
-        public CreateSectionModel(LMS.Data.ApplicationDbContext context)
+        
+        public SectionCreateModel(LMS.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int ? courseId)
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id");
+            ViewData["CourseId"] = courseId;
             return Page();
         }
 
@@ -29,16 +30,29 @@ namespace LMS.Pages.Sections
         public Section Section { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? courseId)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
+            var sectionsInCourse = _context.Sections
+                .Where(x => x.CourseId == courseId)
+                .OrderBy(x => x.Position).ToList();
+            if(sectionsInCourse.Count ==0)
+            {
+                Section.Position = 1;
+            } else
+            {
+                var lastPosition = sectionsInCourse.Last().Position;
+                Section.Position = lastPosition + 1;
+            }
+           
             _context.Sections.Add(Section);
             await _context.SaveChangesAsync();
-            return RedirectToPage("../Courses/CourseEditMode", new {id = Section.CourseId});
+
+            return RedirectToPage("../Courses/CourseEditMode", new { Id = courseId});
         }
     }
 }

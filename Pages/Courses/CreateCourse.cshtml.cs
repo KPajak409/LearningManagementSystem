@@ -50,7 +50,12 @@ namespace LMS.Pages.Courses
             _context.Courses.Add(courseEntity);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            if (await _userManager.IsInRoleAsync(user, "Teacher"))
+                return RedirectToPage("~/Teacher/Index");
+            if (await _userManager.IsInRoleAsync(user, "Admin"))
+                return RedirectToPage("~/Admin/Index");
+
+            return Page();
         }
     }
 }

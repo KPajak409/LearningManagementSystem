@@ -28,7 +28,7 @@
             </nav>
         </div>
         <div class="row">
-            <div class="col-xl-1 col-md-2 d-flex flex-column" style="height: 80vh;">
+            <div class="col-xl-1 col-md-2 d-flex flex-column pe-0">
                 <nav class="navbar navbar-light bg-light border d-flex flex-column" style="height: 100%;">
                       <div class="navbar-nav d-flex justify-content-evenly" style="height: 100%;">
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
@@ -40,7 +40,7 @@
                 </nav>
             </div>
             <div class="col ps-0">
-                <main role="main" class="pb-3">
+                <main role="main" class="course-section">
                     @RenderBody()
                 </main>
             </div>   
@@ -61,3 +61,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

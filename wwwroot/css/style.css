@@ -17,7 +17,19 @@
 .second-row.scrollable.course-section-table tr:nth-child(odd) {
     border-top: 2em solid transparent;
 }
+.second-row.course-section-table tr:first-child
+{
+    border-top:none!important;
+}
 
 .course-section-table tr:nth-child(even) {
     border-radius: 20%;
+}
+
+.course-section {
+    margin: 20px;
+    border-radius: 20px;
+    -webkit-box-shadow: 19px 8px 47px -11px rgba(207, 207, 208, 1);
+    -moz-box-shadow: 19px 8px 47px -11px rgba(207, 207, 208, 1);
+    box-shadow: 19px 8px 47px -11px rgba(207, 207, 208, 1);
 }

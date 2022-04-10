@@ -26,10 +26,12 @@ namespace LMS.Pages.Courses
                 return NotFound();
             }
             Course = _context.Courses.Find(id);
-                
+                        
             Sections = await _context.Sections
+                .Where(x => x.CourseId == id)
+                .OrderBy(x => x.Position)
                 .Include(x => x.Activities).ToListAsync();
-               
+              
             if (Course == null)
             {
                 return NotFound();

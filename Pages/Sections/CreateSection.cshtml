@@ -1,11 +1,11 @@
 ﻿@page
-@model LMS.Pages.Sections.CreateSectionModel
+@model LMS.Pages.Sections.SectionCreateModel
 
 @{
-    ViewData["Title"] = "CreateSection";
+    ViewData["Title"] = "SectionCreate";
 }
 
-<h1>CreateSection</h1>
+<h1>SectionCreate</h1>
 
 <h4>Section</h4>
 <hr />
@@ -13,20 +13,12 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Section.CourseId" class="control-label"></label>
-                <select asp-for="Section.CourseId" class ="form-control" asp-items="ViewBag.CourseId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Section.Position" class="control-label"></label>
-                <input asp-for="Section.Position" class="form-control" />
-                <span asp-validation-for="Section.Position" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+             <div class="form-group">
                 <label asp-for="Section.Title" class="control-label"></label>
                 <input asp-for="Section.Title" class="form-control" />
                 <span asp-validation-for="Section.Title" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Section.CourseId" value="@ViewBag.CourseId"/>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -35,7 +27,7 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a href='javascript:history.go(-1)'>Back to list</a>
 </div>
 
 @section Scripts {

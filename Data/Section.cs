@@ -6,6 +6,7 @@ namespace LMS.Data
     {
         [Key]
         public int Id { get; set; }
+
         public int Position { get; set; }
         public string Title { get; set; } = string.Empty;
         public int CourseId { get; set; }
