@@ -41,7 +41,7 @@
                     @Html.DisplayFor(modelitem => group.Name)
             </td>
             <td>
-                <a class="btn btn-success" asp-page="../Users/UserEdit" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-success" asp-page="../Users/EditUser" asp-route-userId="@item.Id">Edit</a> |
                 <a class="btn btn-warning" asp-page="../Users/UserProfile" asp-route-id="@item.Id">Profile</a> |
                 <a class="btn btn-danger text-light " asp-page="../Users/DeleteUser" asp-route-userId="@item.Id">Delete</a>
             </td>

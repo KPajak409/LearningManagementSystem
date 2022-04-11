@@ -73,7 +73,7 @@ namespace LMS.Pages.Courses
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Admin/Index");
         }
 
         private bool CourseExists(int id)
