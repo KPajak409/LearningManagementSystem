@@ -35,7 +35,7 @@
             <tr>
             <td>
                 @{
-                    var fullName = item.Author?.FirstName + item.Author?.LastName;
+                    var fullName = item.Author?.FirstName + " " + item.Author?.LastName;
                     if (string.IsNullOrEmpty(fullName)) 
                         fullName = "nieznany";
                 }

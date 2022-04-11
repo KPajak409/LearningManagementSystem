@@ -1,0 +1,51 @@
+﻿@page
+@model LMS.Pages.Users.UserDetailsModel
+@{
+}
+
+<p class="mb-0">
+    <a class="btn btn-primary" asp-page="../Users/CreateUser">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersDto[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersDto[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersDto[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersDto[0].Groups)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.UsersDto) {
+            <tr>
+            <td>
+                 @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @foreach(var group in item.Groups)
+                    @Html.DisplayFor(modelitem => group.Name)
+            </td>
+            <td>
+                <a class="btn btn-success" asp-page="../Courses/EditCourse" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-warning" asp-page="../Courses/DetailsCourse" asp-route-id="@item.Id">Profile</a> |
+                <a class="btn btn-danger text-light " asp-page="../Courses/DeleteCourse" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

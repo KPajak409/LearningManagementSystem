@@ -10,7 +10,7 @@ namespace LMS
         {
 
             CreateMap<CreateCourseDto, Course>();
-           
+            CreateMap<User, UserDto>();
                 
         }
     }

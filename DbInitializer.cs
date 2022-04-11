@@ -51,6 +51,8 @@ namespace LMS
                 User user = new User();
                 user.Email = "admin@localhost";
                 user.UserName = user.Email;
+                user.FirstName = "Admin";
+                user.LastName = "Admin";
                 IdentityResult result = userManager.CreateAsync(user, "User123@").Result;
 
                 if (result.Succeeded)
@@ -61,6 +63,8 @@ namespace LMS
                 User user = new User();
                 user.Email = "Teacher@localhost";
                 user.UserName = user.Email;
+                user.FirstName = "Teacher";
+                user.LastName = "Teacher";
                 IdentityResult result = userManager.CreateAsync(user, "User123@").Result;
 
                 if (result.Succeeded)
@@ -71,6 +75,8 @@ namespace LMS
                 User user = new User();
                 user.Email = "student@localhost";
                 user.UserName = user.Email;
+                user.FirstName = "Student";
+                user.LastName = "Student";
                 IdentityResult result = userManager.CreateAsync(user, "User123@").Result;
                 if (result.Succeeded)
                     userManager.AddToRoleAsync(user, "Student").Wait();

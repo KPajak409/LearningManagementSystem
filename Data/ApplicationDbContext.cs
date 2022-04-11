@@ -11,6 +11,7 @@ namespace LMS.Data
         public DbSet<Activity> Activities { get; set; } = null!;
         public DbSet<Question> Questions { get; set; } = null!;
         public DbSet<Answer> Answers { get; set; } = null!;
+        public DbSet<Group> Groups { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -19,6 +20,10 @@ namespace LMS.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<User>()
+                .Property(x => x.Email)
+                .IsRequired();
         }
     
     }
