@@ -6,12 +6,12 @@ namespace LMS.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public DbSet<Course> Courses { get; set; } = null!;
-        public DbSet<Section> Sections { get; set; } = null!;
-        public DbSet<Activity> Activities { get; set; } = null!;
-        public DbSet<Question> Questions { get; set; } = null!;
-        public DbSet<Answer> Answers { get; set; } = null!;
-        public DbSet<Group> Groups { get; set; } = null!;
+        public DbSet<Course> Courses { get; set; } 
+        public DbSet<Section> Sections { get; set; } 
+        public DbSet<Activity> Activities { get; set; } 
+        public DbSet<Question> Questions { get; set; } 
+        public DbSet<Answer> Answers { get; set; } 
+        public DbSet<Group> Groups { get; set; } 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -22,8 +22,9 @@ namespace LMS.Data
             base.OnModelCreating(builder);
 
             builder.Entity<User>()
-                .Property(x => x.Email)
-                .IsRequired();
+                .HasIndex(x => x.Email)
+                .IsUnique();
+
         }
     
     }

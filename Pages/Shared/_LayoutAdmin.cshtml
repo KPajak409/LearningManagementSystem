@@ -34,7 +34,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                         <a class="nav-link" href="#">Courses</a>
                         <a class="nav-link" asp-page="../Users/UserDetails">Users</a>
-                        <a class="nav-link" asp-page="../Groups/GroupDetails">Users</a>
+                        <a class="nav-link" asp-page="../Groups/GroupList">Groups</a>
                       </div>
                 </nav>
             </div>
@@ -53,10 +53,11 @@
             </div>
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    
+    <!--script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></!--script-->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

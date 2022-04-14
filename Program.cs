@@ -2,6 +2,8 @@ using LMS;
 using LMS.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddUserManager<UserManager<User>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews().AddRazorPagesOptions(options => {
@@ -24,6 +27,7 @@ builder.Services.AddControllersWithViews().AddRazorPagesOptions(options => {
 builder.Services.AddScoped<DbInitializer>();
 builder.Services.AddScoped<ApplicationMappingProfile>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAntiforgery(o => o.HeaderName = "CSRF-TOKEN");
 
 var app = builder.Build();
 

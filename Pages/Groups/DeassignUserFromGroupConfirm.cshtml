@@ -1,0 +1,29 @@
+﻿@page
+@model LMS.Pages.Groups.DeassignUserFromGroupConfirmModel
+@{
+}
+@{
+    ViewData["Title"] = " Remove user from group";
+}
+
+<h1>Remove user from group "@Model.Group.Name"</h1>
+
+<h3>Are you sure you want to do this?</h3>
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            User
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserEntity.FirstName) @Html.DisplayFor(model => model.UserEntity.LastName) 
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Group.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a href='javascript:history.go(-1)'>Back to list</a>
+    </form>
+</div>

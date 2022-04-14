@@ -1,0 +1,51 @@
+﻿@page
+@model LMS.Pages.Groups.DeassignUserFromGroupModel
+
+@{
+    ViewData["Title"] = "Deassign user to group";
+}
+
+<h1>Add users to group</h1>
+
+<h4>@Html.DisplayFor(model => model.Group.Name)</h4>
+<hr />
+
+<div id="usersInGroup">
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Group.Users[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Group.Users[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Group.Users[0].LastName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Group.Users) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>          
+            <td>
+                      <a asp-page="./DeassignUserFromGroupConfirm" asp-route-groupId="@Model.Group.Id" asp-route-userId="@item.Id">Deassign</a>
+            </td>               
+        </tr>
+}
+    </tbody>
+</table>
+    </div>
+<div>
+    <a href='javascript:history.go(-1)'>Back to list</a>
+</div>

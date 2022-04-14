@@ -1,0 +1,77 @@
+﻿
+@model Pages.Groups.UserAssignationModel
+@if(Model.Users.Count > 0)
+{    
+
+
+        <div class="container user-entities">
+        <h1 class="text-center display-4">Users table</h1>
+  
+        <div class="row border border-dark bg-light" id="heading">
+            <div class="col-3 border border-dark">Email</div>
+            <div class="col-3 border border-dark">First name</div>
+            <div class="col-3 border border-dark">LastName</div>
+            <div class="col-3 border border-dark">Is selected</div>
+        </div>
+
+            
+            <form method="post">
+                
+
+                @for(int i = 0; i < Model.Users.Count; i++)
+                {    
+                    <div class="row">
+                   <div class="col border-dark bg-light form-group">
+
+                        <input asp-for="@Model.Users[i].Email" readonly class="form-control bg-light border-0" />
+                     </div>
+                   <div class="col border-dark bg-light form-group">
+                        
+                        <input asp-for="@Model.Users[i].FirstName" readonly class="form-control bg-light border-0" />
+                     </div>
+                   <div class="col border-dark bg-light form-group">
+
+                        <input asp-for="@Model.Users[i].LastName" readonly class="form-control bg-light border-0" />
+                     </div>
+                    <div class="col border-dark bg-light form-group">
+                        <input type="checkbox" asp-for="@Model.Users[i].IsSelected"/>  
+                        <input type="hidden" asp-for="@Model.Users[i].Id"/>
+                    </div>   
+                    </div>
+                }
+
+            <input type="submit" value="Assign" id="btnAssign" asp-route-id="@Model.Group.Id"/> |
+            </form>
+            </div>       
+}
+else
+{
+    <div class="alert alert-danger">
+        No users found with specified name.
+    </div>
+}
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+
+/*$("#btnAssign").click(function (){
+                console.log("Siemano");
+                function DataParse() {
+                    var data = Json.Parse('@Html.Raw(Json.Serialize(Model))')
+                }
+                var dataToSend
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("OnPost", new { objectStringified = Newtonsoft.Json.JsonConvert.SerializeObject(new List<User>()) })',
+                    
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+                    },
+                    success: function(result) {
+                        alert("Poszlo");
+                        
+                    }
+                })
+            });*/
+            </script>

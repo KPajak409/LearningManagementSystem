@@ -1,0 +1,63 @@
+﻿@page
+@model LMS.Pages.Groups.AssignUserToGroupModel
+
+@{
+    ViewData["Title"] = "Assign user to group";
+}
+
+<h1>Add users to group @Html.DisplayFor(model => model.Group.Name)</h1>
+@if(Model.ErrMsg != null)
+{
+    <h3 class="text-danger">@Model.ErrMsg</h3>
+}
+
+
+<hr />
+<div class="col-md-4">
+    <form>
+        <div class="form-group">
+
+            <input type="text" class="form-control" placeholder="Search Users"  id="txtSearch"/>
+            <button class="btn btn-success" type="button" id="btnSearch">Search</button>
+        </div>
+
+    </form>
+</div>
+<div id="userItemsContainer">
+</div>
+
+
+<div id="usersInGroup">
+    <partial name="_UsersInGroup" model="@Model.Users" />
+    </div>
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      
+         $("#btnSearch").on("click", function (){
+             $("#userItemsContainer").load("AssignUserToGroup?handler=SelectUsers" + "&id=" + @Model.Group.Id + "&searchPhrase=" + $("#txtSearch").val() + "&viewName=_UserList")
+         });
+            $("#btnAssign").on("click", function (){
+             $("#usersInGroup").load("AssignUserToGroup?handler=SelectUsersInCurrentGroup" + "&id=" + @Model.Group.Id + "&viewName=_UsersInGroupList")
+         });
+           /* $("#btnSearch").click(function (){
+                console.log("Siemano");
+                $.ajax({
+                    type: "GET",
+                    url: "AssignUserToGroup?handler=SelectUsers&" + "searchPhrase=" + $("#txtSearch").val() + "&viewName=_UserList",
+                    
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+                    },
+                    success: function(result) {
+                        alert("Poszlo");
+                        
+                    }
+                })
+            });*/
+
+            </script>

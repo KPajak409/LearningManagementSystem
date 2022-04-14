@@ -1,0 +1,38 @@
+﻿@page
+@model LMS.Pages.Groups.GroupListModel
+
+@{
+    ViewData["Title"] = "GroupList";
+}
+
+<h1>GroupList</h1>
+
+<p>
+    <a asp-page="./CreateGroup">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Groups[0].Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Groups) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-page="./AssignUserToGroup" asp-route-id="@item.Id">Assign user</a> |
+                <a asp-page="./DeassignUserFromGroup" asp-route-groupId="@item.Id">Deassign user</a> |
+                <a asp-page="./EditGroup" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./GroupDetails" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./DeleteGroup" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

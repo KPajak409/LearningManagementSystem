@@ -7,11 +7,12 @@ namespace LMS.Data
     {
         [Required/*(ErrorMessage = "The field email is required")*/]
         [EmailAddress/*(ErrorMessage = "Inappriopriate email adress")*/]
-        public override string Email { get; set; } = string.Empty;
+        public override string Email { get; set; }
         [Required]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
         [Required]
-        public string? LastName { get; set; }
-        public virtual ICollection<Group>? Groups { get; set; }
+        public string LastName { get; set; }
+        public bool IsSelected { get; set; }
+        public virtual IList<Group> Groups { get; set; } = new List<Group>();
     }
 }

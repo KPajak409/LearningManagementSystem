@@ -11,8 +11,8 @@ namespace LMS.Data
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public ActivityType ActivityType { get; set; }
-        public ICollection<Question>? Questions { get; set; }
-        public int? Points { get; set; }
+        public ICollection<Question> Questions { get; set; }
+        public int Points { get; set; }
 
      }
 }
