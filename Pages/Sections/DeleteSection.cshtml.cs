@@ -48,14 +48,8 @@ namespace LMS.Pages.Sections
 
             Section = await _context.Sections.FindAsync(id);
 
-            
-
-            
-
             if (Section != null)
             {
-                
-
                 var sortedSections = _context.Sections
                 .Where(x => x.CourseId == Section.CourseId && x.Position > Section.Position)
                 .OrderBy(x => x.Position).ToList();

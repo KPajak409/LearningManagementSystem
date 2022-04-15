@@ -23,21 +23,20 @@ namespace LMS.Pages.Sections
         [BindProperty]
         public Section Section { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+
+        public async Task<IActionResult> OnGetAsync(int courseId, int sectionId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+
 
             Section = await _context.Sections
-                .Include(s => s.Course).FirstOrDefaultAsync(m => m.Id == id);
+                .Where(s => s.CourseId == courseId && s.Id == sectionId)
+                .SingleOrDefaultAsync();
 
             if (Section == null)
             {
                 return NotFound();
             }
-           ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id");
+            //ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id");
             return Page();
         }
 
@@ -49,7 +48,6 @@ namespace LMS.Pages.Sections
             {
                 return Page();
             }
-
             _context.Attach(Section).State = EntityState.Modified;
 
             try
@@ -68,7 +66,7 @@ namespace LMS.Pages.Sections
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Courses/CourseEditMode", new { Id = Section.CourseId });
         }
 
         private bool SectionExists(int id)

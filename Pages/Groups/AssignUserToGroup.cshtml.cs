@@ -31,7 +31,7 @@ namespace LMS.Pages.Groups
                 .Where(g => g.Id == id)
                 .SingleOrDefaultAsync();
             Users = Group.Users;
-            await OnGetSelectUsersInCurrentGroupAsync(id, "UsersInGroup");
+            await OnGetSelectUsersInCurrentGroupAsync(id, "UsersList");
             return Page();
         }
         public async Task<PartialViewResult> OnGetSelectUsers(int id, string searchPhrase, string viewName)

@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Activity.Name" class="control-label"></label>
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Activity.Details" class="control-label"></label>
-                <input asp-for="Activity.Details" class="form-control" />
+                <textarea asp-for="Activity.Details" rows="4" class="form-control"></textarea>
                 <span asp-validation-for="Activity.Details" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,9 +34,8 @@
                 <span asp-validation-for="Activity.EndTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Activity.ActivityType" class="control-label"></label>
-                <select asp-for="Activity.ActivityType" class="form-control"></select>
-                <span asp-validation-for="Activity.ActivityType" class="text-danger"></span>
+                <label asp-for="Activity.ActivityType" class="form-control" />
+                <select asp-for="Activity.ActivityType" asp-items="Html.GetEnumSelectList<ActivityType>()"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Activity.Points" class="control-label"></label>
@@ -45,6 +44,11 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <div class="form-group upload-file">
+               
+                <input type="file" asp-for="Files" multiple/>
+
             </div>
         </form>
     </div>

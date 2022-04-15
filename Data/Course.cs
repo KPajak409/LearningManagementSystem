@@ -11,6 +11,7 @@ namespace LMS.Data
         public string PasswordHash { get; set; }
         public string Name { get; set; } = null!;
         public string Description { get; set; }
-        public virtual ICollection<User> Users { get; set; }    
+        public virtual IList<Section> Sections { get; set; } = new List<Section>();
+        public virtual IList<User> Users { get; set; } = new List<User>();
     }
 }

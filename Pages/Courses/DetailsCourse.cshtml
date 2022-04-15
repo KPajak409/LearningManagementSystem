@@ -1,24 +1,21 @@
 ﻿@page
 @model LMS.Pages.Courses.DetailsCourseModel
-
 @{
-    ViewData["Title"] = "DetailsCourse";
+    ViewData["Title"] = "CourseEditMode";
     var authorfullName = Model.Course.Author?.FirstName + Model.Course.Author?.LastName;
     if (string.IsNullOrEmpty(authorfullName)) 
         authorfullName = "nieznany";
 }
 
-
-<div class="container-fluid">
-    <div class="row border-2 border-bottom">
+ <div class="container-fluid">
+    <div class="row border-2 border-bottom pt-2 pb-2">
         <div class="d-flex flex-row justify-content-between align-items-center">
             <div>
-                <h1 class="mt-2">@Html.DisplayFor(model => model.Course.Name)</h1>
-                <h4>@authorfullName</h4>
+                <h2 class="mt-2">@Html.DisplayFor(model => model.Course.Name)</h2>
             </div>
                 <div class="d-flex flex-row align-items-center">              
                 <div> 
-                    <a class="btn btn-secondary me-2" asp-page="./CourseEditMode" asp-route-id="@Model.Course.Id" style="background-color: rgba(0,0,0,.45)">Edit mode</a>
+                    <a class="btn btn-secondary me-2" asp-page="./CourseEditMode" asp-route-Id="@Model.Course.Id" style="background-color: rgba(0,0,0,.40)">Edit mode</a>
                 </div>
                     <div class="dropdown">
                       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
@@ -33,10 +30,24 @@
                     </div>
                 </div>
         </div>
-        <div>
-           
-        </div>
-    </div>
 
+    </div>
+    <div class="row second-row scrollable mt-3 course-section-table">
+        <div class="section-list d-flex flex-column">
+        @foreach(var item in Model.Sections) {         
+            <div class="section-header p-2 bg-dark d-flex flex-row justify-content-between">
+                  <span class="fs-5 text-light" id="sectionTitle">@Html.DisplayFor(modelitem => item.Title)</span>                             
+            </div>
+                @foreach(var activity in item.Activities){}
+                    <div class="list-group activity-item d-flex flex-column">
+                      <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
+                      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                      <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                      <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                      <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+                    </div>
+            }            
+         </div>
+    </div>
 </div>
 

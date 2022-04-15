@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using LMS.Dtos;
+using Bogus;
 
 namespace LMS.Data
 {
@@ -24,6 +25,7 @@ namespace LMS.Data
             builder.Entity<User>()
                 .HasIndex(x => x.Email)
                 .IsUnique();
+
 
         }
     

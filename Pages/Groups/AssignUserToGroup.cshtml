@@ -28,10 +28,10 @@
 
 
 <div id="usersInGroup">
-    <partial name="_UsersInGroup" model="@Model.Users" />
+    <partial name="_UsersList" model="@Model.Users" />
     </div>
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="../Groups/GroupList">Back to List</a>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -39,10 +39,10 @@
     <script type="text/javascript">
       
          $("#btnSearch").on("click", function (){
-             $("#userItemsContainer").load("AssignUserToGroup?handler=SelectUsers" + "&id=" + @Model.Group.Id + "&searchPhrase=" + $("#txtSearch").val() + "&viewName=_UserList")
+             $("#userItemsContainer").load("AssignUserToGroup?handler=SelectUsers" + "&id=" + @Model.Group.Id + "&searchPhrase=" + $("#txtSearch").val() + "&viewName=_UserListForm")
          });
             $("#btnAssign").on("click", function (){
-             $("#usersInGroup").load("AssignUserToGroup?handler=SelectUsersInCurrentGroup" + "&id=" + @Model.Group.Id + "&viewName=_UsersInGroupList")
+             $("#usersInGroup").load("AssignUserToGroup?handler=SelectUsersInCurrentGroup" + "&id=" + @Model.Group.Id + "&viewName=_UsersList")
          });
            /* $("#btnSearch").click(function (){
                 console.log("Siemano");

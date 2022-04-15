@@ -14,5 +14,7 @@ namespace LMS.Data
         public ICollection<Question> Questions { get; set; }
         public int Points { get; set; }
 
+        //public string FilesName { get; set; }
+
      }
 }

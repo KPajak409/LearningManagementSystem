@@ -70,6 +70,7 @@ namespace LMS.Pages.Users
                 
                 if (result.Succeeded)
                     _userManager.AddToRoleAsync(UserEntity, SelectedRole).Wait();
+                await _context.SaveChangesAsync();
             } else
             {
                 Error = "User with the given adress email already exists.";

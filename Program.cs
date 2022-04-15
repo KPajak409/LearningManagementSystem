@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("LearningManagementSystemDb");
+IWebHostEnvironment env = builder.Environment;
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -26,6 +27,7 @@ builder.Services.AddControllersWithViews().AddRazorPagesOptions(options => {
 });
 builder.Services.AddScoped<DbInitializer>();
 builder.Services.AddScoped<ApplicationMappingProfile>();
+//builder.Services.AddScoped<IHostingEnvironment>(env);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAntiforgery(o => o.HeaderName = "CSRF-TOKEN");
 

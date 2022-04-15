@@ -1,4 +1,5 @@
-﻿using LMS.Data;
+﻿using Bogus;
+using LMS.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +8,6 @@ namespace LMS
     public class DbInitializer
     {
         private readonly ApplicationDbContext _dbContext;
-
 
         public DbInitializer(ApplicationDbContext dbContext)
         {
@@ -46,6 +46,8 @@ namespace LMS
 
         public void SeedUsers(UserManager<User> userManager)
         {
+            
+            
             if (userManager.FindByEmailAsync("admin@localhost").Result == null)
             {
                 User user = new User();
@@ -82,10 +84,32 @@ namespace LMS
                     userManager.AddToRoleAsync(user, "Student").Wait();
             }
         }
+        public async Task SeedStudents(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            int countUsers = _dbContext.Users.Count();
 
+            if (countUsers < 100)
+            {
+                var stock = new Faker<User>()
+                .RuleFor(m => m.Email, f => f.Internet.Email())
+                .RuleFor(m => m.FirstName, f => f.Name.FirstName())
+                .RuleFor(m => m.LastName, f => f.Name.LastName());
+                for (int i = 0; i < 100; i++)
+                {
+                    var user = stock.Generate();
+                    IdentityResult result = await userManager.CreateAsync(user);
+                    if (result.Succeeded)
+                        userManager.AddToRoleAsync(user, "Student").Wait();
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+            }
+        }
         private void SeedCourses()
         {
 
         }
+
     }
 }

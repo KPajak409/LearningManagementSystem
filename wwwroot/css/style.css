@@ -4,7 +4,7 @@
 }
 
 .second-row.scrollable {
-    max-height: 65vh;
+    max-height: 85vh;
     -ms-overflow-style: none;
     scrollbar-width: none;
     overflow-y: scroll;
@@ -32,4 +32,14 @@
     -webkit-box-shadow: 19px 8px 47px -11px rgba(207, 207, 208, 1);
     -moz-box-shadow: 19px 8px 47px -11px rgba(207, 207, 208, 1);
     box-shadow: 19px 8px 47px -11px rgba(207, 207, 208, 1);
+}
+
+.section-header {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 15px;
+}
+.section-list .activity-item {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    margin-bottom: 1rem;
 }

@@ -20,16 +20,19 @@ namespace LMS.Pages.Courses
         }
 
         public Course Course { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IList<Section> Sections { get; set; }
+        public async Task<IActionResult> OnGetAsync(int? courseId)
         {
-            if (id == null)
+            if (courseId == null)
             {
                 return NotFound();
             }
+            Course = _context.Courses.Find(courseId);
 
-            Course = await _context.Courses
-                .Include(c => c.Author).FirstOrDefaultAsync(m => m.Id == id);
+            Sections = await _context.Sections
+                .Where(x => x.CourseId == courseId)
+                .OrderBy(x => x.Position)
+                .Include(x => x.Activities).ToListAsync();
 
             if (Course == null)
             {
