@@ -1,13 +1,16 @@
 ﻿@page
 @model LMS.Pages.Courses.DetailsCourseModel
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "CourseEditMode";
     var authorfullName = Model.Course.Author?.FirstName + Model.Course.Author?.LastName;
     if (string.IsNullOrEmpty(authorfullName)) 
         authorfullName = "nieznany";
 }
-
- <div class="container-fluid">
+@if(SignInManager.IsSignedIn(User))
+{
+    <div class="container-fluid">
     <div class="row border-2 border-bottom pt-2 pb-2">
         <div class="d-flex flex-row justify-content-between align-items-center">
             <div>
@@ -34,20 +37,24 @@
     </div>
     <div class="row second-row scrollable mt-3 course-section-table">
         <div class="section-list d-flex flex-column">
-        @foreach(var item in Model.Sections) {         
-            <div class="section-header p-2 bg-dark d-flex flex-row justify-content-between">
-                  <span class="fs-5 text-light" id="sectionTitle">@Html.DisplayFor(modelitem => item.Title)</span>                             
+        @foreach(var item in Model.Sections) {
+         
+            <div class="section-header p-2 mt-4 bg-dark d-flex flex-row justify-content-between">
+                  <span class="fs-5 text-light" id="sectionTitle">@Html.DisplayFor(modelitem => item.Title)</span>                
             </div>
-                @foreach(var activity in item.Activities){}
-                    <div class="list-group activity-item d-flex flex-column">
-                      <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
-                      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                      <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                      <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                      <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+
+
+                @foreach(var activity in item.Activities)
+                {
+                    <div class="list-group activity-item d-flex flex-column">                                        
+                        <a asp-page="../Activities/ActivityDetails" asp-route-activityId="@activity.Id" asp-route-courseId="@Model.Course.Id" class="list-group-item list-group-item-action">@activity.Name</a>
                     </div>
+                }
+                    
             }            
          </div>
     </div>
 </div>
 
+
+}

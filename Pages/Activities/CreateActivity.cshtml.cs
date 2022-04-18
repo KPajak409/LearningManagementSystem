@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LMS.Data;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Pages.Activities
 {
@@ -41,21 +42,63 @@ namespace LMS.Pages.Activities
         {
             if(!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Page();
             }
-
-            _context.Add(Activity);
+            
+            if (Files.Count > 0)
+            {
+                var size = Files.Sum(f => f.Length);
+                foreach (var formFile in Files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        if(Files.Last() != formFile)
+                        {
+                            if (Activity.FileNames == null)
+                            {
+                                Activity.FileNames = string.Empty;
+                                Activity.FileNames += formFile.FileName + ' ';
+                            }
+                            else
+                            {
+                                Activity.FileNames += formFile.FileName + ' ';
+                            }
+                        }
+                        else
+                        {
+                            if (Activity.FileNames == null)
+                            {
+                                Activity.FileNames = string.Empty;
+                                Activity.FileNames += formFile.FileName;
+                            }
+                            else
+                            {
+                                Activity.FileNames += formFile.FileName;
+                            }
+                        }
+                                               
+                    } else if(formFile.Length == 0)
+                    {
+                        Activity.FileNames = string.Empty;
+                    }
+                }
+            }
+            //Activity.Status = ActivityStatus.NotAssesed;
+            var section = _context.Sections
+               .Include(s => s.Activities)
+               .FirstOrDefault(s => s.Id == sectionId);
+            section.Activities.Add(Activity);
+            //_context.Add(Activity);
             _context.SaveChanges();
 
-            //var createdActivity = _context.Activities.Find(a => a.Id)
-            var filePaths = new List<string>();
-            var size = Files.Sum(f => f.Length);
-            foreach(var formFile in Files)
+            if(Files.Count > 0)
             {
-
-                if(formFile.Length > 0)
+                var filePaths = new List<string>();
+                var folderPath = Path.Combine(_environment.ContentRootPath, "Files\\Activities\\" + $"{Activity.Id}\\");
+                Directory.CreateDirectory(folderPath);
+                foreach (var formFile in Files)
                 {
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\", formFile.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\Activities\\" + $"{Activity.Id}\\", formFile.FileName);
                     filePaths.Add(filePath);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -64,7 +107,6 @@ namespace LMS.Pages.Activities
                     }
                 }
             }
-
             
 
             return RedirectToPage("../Courses/CourseEditMode", new  { id = courseId});

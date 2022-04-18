@@ -1,0 +1,50 @@
+﻿@page
+@model LMS.Pages.Activities.ActivityUserResponsesModel
+@{
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityUserResponses[0].User.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityUserResponses[0].User.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityUserResponses[0].EarnedPoints)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.ActivityUserResponses) {
+            <tr>
+            <td>
+                @Html.DisplayFor(model => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.User.LastName) 
+            </td>
+            <td>
+                @if(item.EarnedPoints == null)
+                    {
+                        <span>0/</span>@Html.DisplayFor(model => item.Activity.Points)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => item.EarnedPoints)
+                        <span>/</span>
+                        @Html.DisplayFor(model => item.Activity.Points)
+                    }
+            </td>
+            <td>
+
+                <a class="btn btn-warning" asp-page="./UserResponseDetails" asp-route-responseId="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<a class="btn btn-primary m-2" asp-page="./ActivityDetails" asp-route-activityId="@Model.ActivityId" asp-route-courseId="@Model.CourseId">Back to activity</a>

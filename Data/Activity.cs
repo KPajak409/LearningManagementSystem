@@ -6,15 +6,15 @@ namespace LMS.Data
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
+        [Required]
+        public string Name { get; set; }
         public string Details { get; set; } = null!;
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime? StartTime { get; set; } = null!;
+        public DateTime? EndTime { get; set; } = null!;
         public ActivityType ActivityType { get; set; }
-        public ICollection<Question> Questions { get; set; }
-        public int Points { get; set; }
-
-        //public string FilesName { get; set; }
-
+        public virtual IList<Question> Questions { get; set; }
+        public virtual IList<ActivityUserResponse> UserResponses { get; set; }
+        public int? Points { get; set; } = null!;
+        public string FileNames { get; set; } = null!;
      }
 }

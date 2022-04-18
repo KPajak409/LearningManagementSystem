@@ -13,7 +13,7 @@ namespace LMS.Data
         public DbSet<Question> Questions { get; set; } 
         public DbSet<Answer> Answers { get; set; } 
         public DbSet<Group> Groups { get; set; } 
-
+        public DbSet<ActivityUserResponse> ActivityUserResponses { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -25,7 +25,7 @@ namespace LMS.Data
             builder.Entity<User>()
                 .HasIndex(x => x.Email)
                 .IsUnique();
-
+           
 
         }
     

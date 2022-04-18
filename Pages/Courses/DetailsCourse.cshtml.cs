@@ -33,7 +33,6 @@ namespace LMS.Pages.Courses
                 .Where(x => x.CourseId == courseId)
                 .OrderBy(x => x.Position)
                 .Include(x => x.Activities).ToListAsync();
-
             if (Course == null)
             {
                 return NotFound();
