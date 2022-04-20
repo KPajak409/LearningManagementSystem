@@ -2,8 +2,8 @@
 {
     public enum ActivityType
     {
-        Quiz,
+        Information,
         Task,
-        Information
+        Quiz
     }
 }

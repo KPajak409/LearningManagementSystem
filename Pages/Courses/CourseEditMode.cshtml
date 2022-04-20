@@ -54,7 +54,15 @@
                 @foreach(var activity in item.Activities)
                 {
                     <div class="list-group activity-item d-flex flex-column">
-                      <a asp-page="../Activities/ActivityDetails" asp-route-activityId="@activity.Id" asp-route-courseId="@Model.Course.Id" class="list-group-item list-group-item-action">@activity.Name</a>
+                    @if(activity.ActivityType == ActivityType.Quiz)
+                    {
+                        <a asp-page="../Activities/QuizDetails" asp-route-activityId="@activity.Id" asp-route-courseId="@Model.Course.Id" class="list-group-item list-group-item-action">@activity.Name</a>
+                    }
+                    else
+                    {
+                        <a asp-page="../Activities/ActivityDetails" asp-route-activityId="@activity.Id" asp-route-courseId="@Model.Course.Id" class="list-group-item list-group-item-action">@activity.Name</a>
+                    }
+                     
                     </div>
                 }
                     

@@ -1,0 +1,48 @@
+﻿@page
+@model LMS.Pages.Activities.QuizQuestionsListModel
+@{
+}
+<div class="m-2 d-flex flex-column">
+    <label asp-for="@Model.QuestionType" class="mt-2"></label>
+    <select asp-items="Html.GetEnumSelectList<QuestionType>()" id="selectQuestion"></select>
+
+    <label>Choose a number of answers:</label>
+    <input type="number" id="answersQuantity"/>
+    
+</div>
+<a class="btn btn-secondary m-2 " id="createQuestion">Create question</a>
+<div class="questions-list">
+    
+    
+    @foreach (var question in Model.Questions) 
+    {
+        <ul class="list-group col-md-11 mx-auto mb-3">
+            <li class="list-group-item list-group-item-dark ">@question.Content</li>
+            @foreach(var answer in question.Answers)
+            {
+                if(answer.IsCorrect)
+                {
+                    <li class="list-group-item list-group-item-secondary pt-1 pb-1 bg-success text-light">@answer.Content</li>
+                } else
+                {
+                    <li class="list-group-item list-group-item-secondary pt-1 pb-1">@answer.Content</li>
+                }
+
+            }
+            
+        </ul>
+    }
+
+</div>
+
+<a class="btn btn-primary m-2" asp-page="./QuizDetails" asp-route-activityId="@Model.Activity.Id">Back to activity</a>
+@section Scripts
+{
+    <script>
+         $("#createQuestion").click(function ()
+         {
+            var url = 'QuizAddQuestions?activityId=' + @Model.Activity.Id + "&numberOfAnswers=" + $("#answersQuantity").val(); + "&questionType=" + $("#selectQuestion").val();;
+            window.location.href = url;                
+         });
+    </script>
+}

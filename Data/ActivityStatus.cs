@@ -3,7 +3,9 @@
     public enum ActivityStatus
     {
         NotAssesed,
-        Assessed
+        Assessed,
+        QuizActive,
+        QuizEnded
         
     }
 }

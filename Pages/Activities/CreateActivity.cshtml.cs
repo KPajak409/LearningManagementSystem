@@ -88,7 +88,6 @@ namespace LMS.Pages.Activities
                .Include(s => s.Activities)
                .FirstOrDefault(s => s.Id == sectionId);
             section.Activities.Add(Activity);
-            //_context.Add(Activity);
             _context.SaveChanges();
 
             if(Files.Count > 0)

@@ -1,0 +1,39 @@
+﻿@page
+@model LMS.Pages.Activities.QuizUserStartModel
+
+@{
+    ViewData["Title"] = "QuizUserStart";
+}
+
+<h1>QuizUserStart</h1>
+
+<div class="questions-list">
+    
+    <form method="post">
+        <input type="hidden" asp-for="@Model.ActivityId" />
+
+    @for (int i = 0;  i < Model.Questions.Count; i++) 
+    {
+        <ul class="list-group col-md-11 mx-auto">
+        <input type="hidden" asp-for="@Model.Questions[i].Id"/>
+        <li class="list-group-item list-group-item-dark ">@Model.Questions[i].Content</li>
+            @foreach(var answer in Model.Answers)
+            {
+                if(Model.Questions[i].Answers.Contains(answer))
+                    {
+                        var groupId = "[" + i + "].Id";
+                    <input type="hidden" asp-for="@answer.Id"/>
+                    <li class="d-flex flex-row align-items-center list-group-item list-group-item-secondary pt-1 pb-1">
+                    <input type="radio" name="@groupId" value="@answer.Id">
+                    <input type="hidden" asp-for="@answer.IsCorrect"/>
+                    <span class="form-control list-group-item list-group-item-secondary ms-2 border-0">@answer.Content</span>
+                </li>
+                    }
+                    
+            }
+        
+        </ul>
+    }
+    <input type="submit" value="End quiz" class="btn btn-primary mt-2 mb-2" />
+    </form>
+</div>

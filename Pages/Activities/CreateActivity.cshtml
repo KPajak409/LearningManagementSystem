@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "CreateActivity";
 }
-
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <h1>CreateActivity</h1>
 
 <h4>Activity</h4>
@@ -25,26 +25,26 @@
             </div>
             <div class="form-group">
                 <label asp-for="Activity.StartTime" class="control-label"></label>
-                <input asp-for="Activity.StartTime" class="form-control" />
+                <input disabled asp-for="Activity.StartTime" class="form-control date" />
                 <span asp-validation-for="Activity.StartTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Activity.EndTime" class="control-label"></label>
-                <input asp-for="Activity.EndTime" class="form-control" />
+                <input disabled asp-for="Activity.EndTime" class="form-control date" />
                 <span asp-validation-for="Activity.EndTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Activity.ActivityType" class="form-control" />
-                <select asp-for="Activity.ActivityType" asp-items="Html.GetEnumSelectList<ActivityType>()"></select>
+                <select asp-for="Activity.ActivityType" asp-items="Html.GetEnumSelectList<ActivityType>()" id="selectActivity"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Activity.Points" class="control-label"></label>
-                <input asp-for="Activity.Points" class="form-control" />
+                <input asp-for="Activity.Points" class="form-control" id="textPoints" />
                 <span asp-validation-for="Activity.Points" class="text-danger"></span>
             </div>
             <div class="form-group upload-file">
                 <label class="control-label">Optional files</label>
-                <input type="file" asp-for="Files" multiple/>
+                <input type="file" asp-for="Files" multiple id="files"/>
 
             </div>
             <div class="form-group">
@@ -58,8 +58,35 @@
 <div>
     <a href='javascript:history.go(-1)'>Back to course</a>
 </div>
-    
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
+    
 }
+  <script>
+          $("#selectActivity").change(function() {
+                if($("#selectActivity").val() == "0") {
+                    $(".date").prop("disabled", true);
+                    $('.date').val('');
+                    $("#textPoints").prop("disabled", true);
+                    $('#textPoints').val('');
+                    $("#files").prop("disabled", false);
+                } 
+                if($("#selectActivity").val() == "1") {
+                     $(".date").prop("disabled", false);
+                    $('#textPoints').prop("disabled", false);
+                     $("#files").prop("disabled", false);
+
+                }
+                if($("#selectActivity").val() == "2") {
+                    $("#textPoints").prop("disabled", true);
+                    $('#textPoints').val('');
+                    $(".date").prop("disabled", false);
+                    $("#files").prop("disabled", true);
+                    $("#files").val('');
+                } 
+                
+                
+            });
+                 
+    </script>

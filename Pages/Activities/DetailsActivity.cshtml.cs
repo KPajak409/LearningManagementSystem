@@ -12,7 +12,7 @@ using LMS.Models;
 using System.IO;
 namespace LMS.Pages.Activities
 {
-    public class ActivityDetailsModel : PageModel
+    public class DetailsActivityModel : PageModel
     {
         private readonly LMS.Data.ApplicationDbContext _context;
         private readonly IWebHostEnvironment _environment;
@@ -29,7 +29,7 @@ namespace LMS.Pages.Activities
         [BindProperty]
         public int CourseId { get; set; }
 
-        public ActivityDetailsModel(LMS.Data.ApplicationDbContext context, IWebHostEnvironment environment, UserManager<User> userManager)
+        public DetailsActivityModel(LMS.Data.ApplicationDbContext context, IWebHostEnvironment environment, UserManager<User> userManager)
         {
             _context = context;
             _environment = environment;
