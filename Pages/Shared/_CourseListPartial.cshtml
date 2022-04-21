@@ -1,0 +1,13 @@
+﻿@model System.Collections.Generic.List<Course>
+
+@foreach(var course in Model)
+{
+    <div class="card m-2">
+      <h5 class="card-header">@course.Name</h5>
+      <div class="card-body course">
+        <h5 class="card-title">@course.AuthorName</h5>
+        <p class="card-text">@course.Description</p>
+       <a class="btn btn-primary" asp-page="../Courses/CourseAssign" asp-route-courseId="@course.Id">Sign up</a>
+      </div>
+    </div>
+}

@@ -83,10 +83,12 @@ namespace LMS.Pages.Activities
                     }
                 }
             }
-            //Activity.Status = ActivityStatus.NotAssesed;
+             
             var section = _context.Sections
                .Include(s => s.Activities)
+               .Include(s => s.Course)
                .FirstOrDefault(s => s.Id == sectionId);
+            Activity.Course = section.Course;
             section.Activities.Add(Activity);
             _context.SaveChanges();
 

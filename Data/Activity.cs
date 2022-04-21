@@ -9,6 +9,8 @@ namespace LMS.Data
         [Required]
         public string Name { get; set; }
         public string Details { get; set; } = null!;
+        public int CourseId { get; set; }
+        public virtual Course Course { get; set; }
         public DateTime? StartTime { get; set; } = null!;
         public DateTime? EndTime { get; set; } = null!;
         public ActivityType ActivityType { get; set; }

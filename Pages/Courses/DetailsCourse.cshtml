@@ -4,9 +4,6 @@
 @inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "CourseEditMode";
-    var authorfullName = Model.Course.Author?.FirstName + Model.Course.Author?.LastName;
-    if (string.IsNullOrEmpty(authorfullName)) 
-        authorfullName = "nieznany";
 }
 @if(SignInManager.IsSignedIn(User))
 {
@@ -18,15 +15,18 @@
             </div>
                 <div class="d-flex flex-row align-items-center">              
                 <div> 
-                    <a class="btn btn-secondary me-2" asp-page="./CourseEditMode" asp-route-Id="@Model.Course.Id" style="background-color: rgba(0,0,0,.40)">Edit mode</a>
+                    @if(User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                        {
+                            <a class="btn btn-secondary me-2" asp-page="./CourseEditMode" asp-route-Id="@Model.Course.Id" style="background-color: rgba(0,0,0,.40)">Edit mode</a>
+                        }                       
                 </div>
                     <div class="dropdown">
                       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                       style="background: rgba(0,0,0,.55)">
-                        Settings
+                        Options
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Users</a></li>
+                            <li><a class="dropdown-item" asp-page="./CourseUsers" asp-route-courseId="@Model.Course.Id">Users</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                       </ul>
@@ -36,7 +36,7 @@
 
     </div>
     <div class="row second-row scrollable mt-3 course-section-table">
-        <div class="section-list d-flex flex-column">
+        <div class="section-list d-flex flex-column mb-3">
         @foreach(var item in Model.Sections) {
          
             <div class="section-header p-2 mt-4 bg-dark d-flex flex-row justify-content-between">
@@ -53,7 +53,7 @@
                     }
                     else
                     {
-                        <a asp-page="../Activities/ActivityDetails" asp-route-activityId="@activity.Id" asp-route-courseId="@Model.Course.Id" class="list-group-item list-group-item-action">@activity.Name</a>
+                        <a asp-page="../Activities/DetailsActivity" asp-route-activityId="@activity.Id" asp-route-courseId="@Model.Course.Id" class="list-group-item list-group-item-action">@activity.Name</a>
                     }
                     </div>
                 }

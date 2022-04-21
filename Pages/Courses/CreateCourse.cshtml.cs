@@ -44,8 +44,11 @@ namespace LMS.Pages.Courses
             }
             var courseEntity = _mapper.Map<Course>(CourseDto);
             var user = await _userManager.GetUserAsync(User);
-            courseEntity.PasswordHash = BCrypt.Net.BCrypt.HashPassword(CourseDto.Password);
-            courseEntity.Author = user;
+            if(!string.IsNullOrEmpty(CourseDto.Password))
+            {
+                courseEntity.PasswordHash = BCrypt.Net.BCrypt.HashPassword(CourseDto.Password);
+            } 
+            courseEntity.AuthorName = user.FirstName + " " + user.LastName;
             courseEntity.AuthorId = user.Id;
             _context.Courses.Add(courseEntity);
             await _context.SaveChangesAsync();

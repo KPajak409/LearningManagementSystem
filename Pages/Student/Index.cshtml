@@ -1,0 +1,36 @@
+﻿@page
+@model LMS.Pages.NewFolder.IndexModel
+@{
+    Layout = "_LayoutStudentHome";
+}
+
+<div class="card-list d-flex flex-row" id="mainContent">
+
+
+@foreach(var course in Model.Courses)
+{
+    
+    <div class="card m-4 card-style" style="width: 18rem;">
+      <a class="text-decoration-none" asp-page="../Courses/DetailsCourse" asp-route-courseId="@course.Id">
+        <img  alt="CourseCard" class="img-fluid w-100" src="..\images\laptop_card.jpg" width="100" height="100">
+    
+      <div class="card-body ">
+        <p class="card-text text-dark">@course.Name
+        <p>@course.AuthorName</p></p>
+      </div>
+      </a>
+    </div>
+
+}
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+
+        if($("#mainContent").children().length == 0)
+        {
+            $("#mainContent").addClass("justify-content-center");
+            html = '<div class="text-center fs-1 h-100 d-flex flex-row align-items-center justify-content-center">Sorry, its looks like you are not a member of any course</div>';
+            $('#mainContent').append(html);
+        }
+    </script>

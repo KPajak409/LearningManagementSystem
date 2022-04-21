@@ -75,7 +75,7 @@ namespace LMS.Pages.Groups
                     Group.Users.Add(user);
                 } else
                 {
-                    ErrMsg = "User:" + user.FirstName + user.LastName + "already in group.";
+                    ErrMsg = "User: " + user.FirstName + " "+ user.LastName + " already in group.";
                     return Page();
                 }
                     

@@ -46,6 +46,27 @@ namespace LMS
 
         public void SeedUsers(UserManager<User> userManager)
         {
+            if(!_dbContext.Users.Any())
+            {
+                using (var reader = new StreamReader("UsersData.csv"))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        var values = line.Split(',');
+                        User user = new User();
+                        user.FirstName = values[0];
+                        user.LastName = values[1];
+                        user.Email = values[2];
+                        user.UserName = values[2];
+
+                        IdentityResult result = userManager.CreateAsync(user, "User123@").Result;
+
+                        if (result.Succeeded)
+                            userManager.AddToRoleAsync(user, "Student").Wait();
+                    }
+                }
+            }
             
             
             if (userManager.FindByEmailAsync("admin@localhost").Result == null)

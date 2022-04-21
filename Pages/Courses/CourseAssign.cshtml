@@ -1,0 +1,22 @@
+﻿@page
+@model LMS.Pages.Courses.CourseAssignModel
+@{
+}
+<div class="card">
+      <h5 class="card-header">@Model.Course.Name</h5>
+      <div class="card-body">
+        <h5 class="card-title">@Model.Course.AuthorName</h5>
+        <p class="card-text">@Model.Course.Description</p>
+        <form method="post">
+            <input type="hidden" asp-for="@Model.Course.Id" />
+            <input asp-for=@Model.Password/>
+             <input type="submit" value="Sign up" class="btn btn-primary"></input>
+        </form>
+        @if(!string.IsNullOrEmpty(Model.Error))
+        {
+            <p class="card-text text-danger">@Model.Error</p>
+        }
+        
+      
+      </div>
+    </div>

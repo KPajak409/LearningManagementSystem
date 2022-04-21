@@ -44,20 +44,4 @@
             $("#btnAssign").on("click", function (){
              $("#usersInGroup").load("AssignUserToGroup?handler=SelectUsersInCurrentGroup" + "&id=" + @Model.Group.Id + "&viewName=_UsersList")
          });
-           /* $("#btnSearch").click(function (){
-                console.log("Siemano");
-                $.ajax({
-                    type: "GET",
-                    url: "AssignUserToGroup?handler=SelectUsers&" + "searchPhrase=" + $("#txtSearch").val() + "&viewName=_UserList",
-                    
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
-                    },
-                    success: function(result) {
-                        alert("Poszlo");
-                        
-                    }
-                })
-            });*/
-
             </script>

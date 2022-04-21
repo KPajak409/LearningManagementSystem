@@ -10,10 +10,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Courses[0].Author)
+                @Html.DisplayNameFor(model => model.Courses[0].AuthorName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses[0].PasswordHash)
+                Password
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Courses[0].Name)
@@ -27,13 +27,27 @@
     <tbody>
     @foreach (var item in Model.Courses) {
             <tr>
-            <td>
-                @{
-                    var fullName = item.Author?.FirstName + " " + item.Author?.LastName;
-                    if (string.IsNullOrEmpty(fullName)) 
+                <td>
+                    @{
+                        var fullName = item.AuthorName;
+                        if (string.IsNullOrEmpty(fullName)) 
                         fullName = "nieznany";
                 }
                 @fullName
+            </td>
+            <td>
+            @{
+                var password = string.Empty;
+                if(item.PasswordHash == null)
+                {  
+                    password = "No password"; 
+                }
+                else 
+                {
+                    password = "Password required";
+                }                   
+            }
+                @password
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

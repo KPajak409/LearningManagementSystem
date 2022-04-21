@@ -4,18 +4,16 @@ using LMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LMS.Data.Migrations
+namespace LMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220416124553_ActivityFieldsUpdateAndUserResponse")]
-    partial class ActivityFieldsUpdateAndUserResponse
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,6 +21,21 @@ namespace LMS.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("CourseUser", b =>
+                {
+                    b.Property<int>("CoursesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CoursesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("CourseUser");
+                });
 
             modelBuilder.Entity("GroupUser", b =>
                 {
@@ -50,6 +63,9 @@ namespace LMS.Data.Migrations
                     b.Property<int>("ActivityType")
                         .HasColumnType("int");
 
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Details")
                         .HasColumnType("nvarchar(max)");
 
@@ -74,6 +90,8 @@ namespace LMS.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CourseId");
+
                     b.HasIndex("SectionId");
 
                     b.ToTable("Activities");
@@ -97,10 +115,14 @@ namespace LMS.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Response")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ResponseFileNames")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -128,6 +150,9 @@ namespace LMS.Data.Migrations
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
@@ -147,7 +172,10 @@ namespace LMS.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AuthorName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -159,8 +187,6 @@ namespace LMS.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.ToTable("Courses");
                 });
@@ -193,11 +219,11 @@ namespace LMS.Data.Migrations
                     b.Property<int>("ActivityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AnswerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("QuestionType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -241,9 +267,6 @@ namespace LMS.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -298,8 +321,6 @@ namespace LMS.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -452,6 +473,21 @@ namespace LMS.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CourseUser", b =>
+                {
+                    b.HasOne("LMS.Data.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LMS.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GroupUser", b =>
                 {
                     b.HasOne("LMS.Data.Group", null)
@@ -469,9 +505,17 @@ namespace LMS.Data.Migrations
 
             modelBuilder.Entity("LMS.Data.Activity", b =>
                 {
+                    b.HasOne("LMS.Data.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("LMS.Data.Section", null)
                         .WithMany("Activities")
                         .HasForeignKey("SectionId");
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("LMS.Data.ActivityUserResponse", b =>
@@ -498,15 +542,6 @@ namespace LMS.Data.Migrations
                         .HasForeignKey("QuestionId");
                 });
 
-            modelBuilder.Entity("LMS.Data.Course", b =>
-                {
-                    b.HasOne("LMS.Data.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
-                    b.Navigation("Author");
-                });
-
             modelBuilder.Entity("LMS.Data.Question", b =>
                 {
                     b.HasOne("LMS.Data.Activity", "Activity")
@@ -527,13 +562,6 @@ namespace LMS.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
-                });
-
-            modelBuilder.Entity("LMS.Data.User", b =>
-                {
-                    b.HasOne("LMS.Data.Course", null)
-                        .WithMany("Users")
-                        .HasForeignKey("CourseId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -597,8 +625,6 @@ namespace LMS.Data.Migrations
             modelBuilder.Entity("LMS.Data.Course", b =>
                 {
                     b.Navigation("Sections");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("LMS.Data.Question", b =>

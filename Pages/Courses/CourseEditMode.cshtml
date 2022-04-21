@@ -2,7 +2,7 @@
 @model LMS.Pages.Courses.CourseEditModeModel
 @{
     ViewData["Title"] = "CourseEditMode";
-    var authorfullName = Model.Course.Author?.FirstName + Model.Course.Author?.LastName;
+    var authorfullName = Model.Course.AuthorName;
     if (string.IsNullOrEmpty(authorfullName)) 
         authorfullName = "nieznany";
 }
@@ -38,7 +38,7 @@
     <div class="row second-row scrollable course-section-table">
    
 
-        <div class="section-list d-flex flex-column">
+        <div class="section-list d-flex flex-column mb-3">
         @foreach(var item in Model.Sections) {
          
             <div class="section-header p-2 mt-4 bg-dark d-flex flex-row justify-content-between">
@@ -60,7 +60,7 @@
                     }
                     else
                     {
-                        <a asp-page="../Activities/ActivityDetails" asp-route-activityId="@activity.Id" asp-route-courseId="@Model.Course.Id" class="list-group-item list-group-item-action">@activity.Name</a>
+                        <a asp-page="../Activities/DetailsActivity" asp-route-activityId="@activity.Id" asp-route-courseId="@Model.Course.Id" class="list-group-item list-group-item-action">@activity.Name</a>
                     }
                      
                     </div>

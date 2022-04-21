@@ -13,11 +13,11 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Author)
+            @Html.DisplayNameFor(model => model.Course.AuthorName)
         </dt>
         <dd class="col-sm-10">
             @{
-                var fullName = Model.Course.Author?.FirstName + Model.Course.Author?.LastName;
+                var fullName = Model.Course.AuthorName;
                     if (string.IsNullOrEmpty(fullName)) 
                         fullName = "nieznany";
             }

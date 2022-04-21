@@ -31,7 +31,7 @@ namespace LMS.Pages.Courses
             }
 
             Course = await _context.Courses
-                .Include(c => c.Author).FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Course == null)
             {

@@ -24,7 +24,7 @@ namespace LMS.Pages.Teacher
         public async Task OnGetAsync()
         {
             Course = await _context.Courses
-                .Include(c => c.Author).ToListAsync();
+                .ToListAsync();
         }
     }
 }

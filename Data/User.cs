@@ -14,5 +14,6 @@ namespace LMS.Data
         public string LastName { get; set; }
         public bool IsSelected { get; set; }
         public virtual IList<Group> Groups { get; set; } = new List<Group>();
+        public virtual IList<Course> Courses { get; set; }
     }
 }

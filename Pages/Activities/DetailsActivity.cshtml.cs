@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using LMS.Models;
 using System.IO;
+
 namespace LMS.Pages.Activities
 {
     public class DetailsActivityModel : PageModel
@@ -54,26 +55,32 @@ namespace LMS.Pages.Activities
             }
 
             DownloadedFiles = new List<FileModel>();
-            var sourceFilePaths = Directory.GetFiles(Path.Combine(_environment.ContentRootPath, "Files\\Activities\\" + $"{Activity.Id}\\"));  
-          
-            
-            foreach (string filePath in sourceFilePaths)
+
+            string curDir = Path.Combine(_environment.ContentRootPath, "Files\\Activities\\" + $"{Activity.Id}\\");
+            if (Directory.Exists(curDir))
             {
-                var fileName = Path.GetFileName(filePath);
-                if (string.IsNullOrEmpty(Activity.FileNames))
+                var sourceFilePaths = Directory.GetFiles(Path.Combine(_environment.ContentRootPath, "Files\\Activities\\" + $"{Activity.Id}\\"));
+
+
+                foreach (string filePath in sourceFilePaths)
                 {
-                    break;
-                }
-                else if (Activity.FileNames.Contains(fileName))
-                {
-                    DownloadedFiles.Add(new FileModel
+                    var fileName = Path.GetFileName(filePath);
+                    if (string.IsNullOrEmpty(Activity.FileNames))
                     {
-                        FileName = fileName,
-                        Owner = OwnerType.Teacher
-                    });
-                }                       
+                        break;
+                    }
+                    else if (Activity.FileNames.Contains(fileName))
+                    {
+                        DownloadedFiles.Add(new FileModel
+                        {
+                            FileName = fileName,
+                            Owner = OwnerType.Teacher
+                        });
+                    }
+                }
             }
-            if (UserResponse.Id != 0)
+            curDir = Path.Combine(_environment.ContentRootPath, "Files\\UserResponses\\" + $"{UserResponse.Id}\\");
+            if (Directory.Exists(curDir))
             {
                 var responseFilePaths = Directory.GetFiles(Path.Combine(_environment.ContentRootPath, "Files\\UserResponses\\" + $"{UserResponse.Id}\\"));
                 foreach (string filePath in responseFilePaths)

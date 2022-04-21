@@ -1,0 +1,45 @@
+﻿@page
+@model LMS.Pages.Student.TaskListModel
+
+
+@foreach(var activity in Model.Activities)
+{
+    <div class="card m-2">
+        <div class="card-header d-flex flex-row justify-content-between fs-5 fw-bold"><span>@activity.Name</span> <span>Course: @activity.Course.Name</span>
+        </div>
+        @if(activity.ActivityType == ActivityType.Quiz)
+        {
+            <a asp-page="../Activities/QuizDetails" asp-route-activityId="@activity.Id" asp-route-courseId="@activity.Course.Id" class="text-decoration-none text-dark" >
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @{
+                        var timeLeft = activity.EndTime - DateTime.Now;
+                        string time = timeLeft.Value.Days.ToString() + "d " + timeLeft.Value.Hours.ToString() + "h left.";
+                        }
+                        @time
+                    </h5>
+                    <p class="card-text">@activity.Details</p>
+                    </div>
+            </a>
+        }
+        else
+        {
+            <a asp-page="../Activities/DetailsActivity" asp-route-activityId="@activity.Id" asp-route-courseId="@activity.Course.Id" class="text-decoration-none text-dark" >
+                <div class="card-body">
+                    <h5 class="card-title">
+                    @{
+                        var timeLeft = activity.EndTime - DateTime.Now;
+                        string time = timeLeft.Value.Days.ToString() + "d " + timeLeft.Value.Hours.ToString() + "h left.";
+                    }
+                    @time
+                    </h5>
+                <p class="card-text">@activity.Details</p>
+                </div>
+            </a>
+        }
+      
+        
+
+        
+    </div>
+}

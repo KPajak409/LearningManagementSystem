@@ -38,7 +38,31 @@
     border-top-right-radius: 10px;
     border-top-left-radius: 15px;
 }
-.section-list .activity-item {
+.section-list .activity-item:last-child {
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
+}
+
+div.student-image {
+    background-image: url("../images/computer.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.card-style {
+    background-color: aliceblue;
+    border-radius: 5%;
+}
+
+.card-style a img {
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+    border-bottom: solid 1px black;
+}
+
+.card-body.course {
+    font-weight: bold;
+}
+.card-body.course p {
+    font-weight: normal;
 }

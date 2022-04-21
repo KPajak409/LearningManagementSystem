@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LMS.Data;
+using LMS.Models;
 
 namespace LMS.Pages.Courses
 {
@@ -21,6 +22,7 @@ namespace LMS.Pages.Courses
 
         public Course Course { get; set; }
         public IList<Section> Sections { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? courseId)
         {
             if (courseId == null)

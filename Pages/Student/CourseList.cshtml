@@ -1,0 +1,22 @@
+﻿@page
+@model LMS.Pages.Student.CourseListModel
+@{
+    Layout = "_LayoutStudentHome";
+}
+<div class="col-md-4 d-flex flex-row justify-content-end w-100 pt-md-2">
+    <input type="text" class="form-control w-25" placeholder="Search Users"  id="txtSearch"/>
+    <button class="ms-2 btn btn-success" type="button" id="btnSearch">Search</button>
+</div>
+
+
+<div id="courseItemsContainer">
+    <partial name="_CourseListPartial" model="@Model.Courses" />
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $("#btnSearch").on("click", function (){
+             $("#courseItemsContainer").load("CourseList?handler=SearchResult" + "&searchPhrase=" + $("#txtSearch").val() + "&viewName=_CourseListPartial")
+         });
+</script>
