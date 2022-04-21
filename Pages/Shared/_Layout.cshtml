@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LMS.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body style="background-color: rgb(22, 31, 87);">
     
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container h-100">
+        <main role="main" class="h-100 pb-3 d-flex flex-row align-items-center justify-content-center">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - LMS - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2022 - LMS - <a style="color: antiquewhite;" asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 

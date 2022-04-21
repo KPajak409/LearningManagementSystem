@@ -63,6 +63,7 @@ div.student-image {
 .card-body.course {
     font-weight: bold;
 }
-.card-body.course p {
-    font-weight: normal;
-}
+    .card-body.course p {
+        font-weight: normal;
+        
+    }
