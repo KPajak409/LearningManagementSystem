@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="container-fluid h-100 p-0" id="#map">
-         <div class="row">
+         <div class="row" >
             <nav class="navbar navbar-expand navbar-dark bg-dark d-flex flex-row justify-content-between">
                 <a class="navbar-brand ms-4" asp-page="./Index" >LMS</a>
                 <div>
@@ -40,7 +40,7 @@
             <div class="bg-dark" ></div>
         </div>
         <div class="row" style="height: 65vh">
-           <div class="col ps-0 second-row scrollable">
+           <div class="col ps-0 second-row scrollable" style="max-height: 65vh;"">
                 <main role="main" class="course-section p-2">
                     @RenderBody()  
                 </main>

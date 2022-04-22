@@ -1,6 +1,8 @@
 ﻿@page
 @model LMS.Pages.Student.TaskListModel
-
+@{
+    Layout = "_LayoutStudentHome";
+}
 
 @foreach(var activity in Model.Activities)
 {

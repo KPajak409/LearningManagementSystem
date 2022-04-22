@@ -24,21 +24,19 @@ namespace LMS.Pages.Courses
                 .Include(c => c.Users)
                 .Where(c => c.Id == courseId)
                 .SingleOrDefaultAsync();
-            Course.Sections = await _context.Sections
+            var activities = await _context.Activities
                   .Where(x => x.CourseId == courseId)
-                  .OrderBy(x => x.Position)
-                  .Include(x => x.Activities)
                   .ToListAsync();
             TotalPoints = 0;
 
            
-            foreach(var section in Course.Sections)
+
+            foreach(var activity in activities)
             {
-                foreach(var activity in section.Activities)
-                {
+                if(activity.Points != null)
                     TotalPoints += activity.Points;
-                }
             }
+            
             Users = new List<UserPoints>();
             foreach(var user in Course.Users)
             {
@@ -48,7 +46,8 @@ namespace LMS.Pages.Courses
                 int? totalUserPoints = 0;
                 foreach (var activity in userActivities)
                 {
-                    totalUserPoints += activity.EarnedPoints;
+                    if(activity.EarnedPoints != null)
+                        totalUserPoints += activity.EarnedPoints;
                 }
                 Users.Add(new UserPoints() { UserEntity = user, AchievedPoints = totalUserPoints });
             }

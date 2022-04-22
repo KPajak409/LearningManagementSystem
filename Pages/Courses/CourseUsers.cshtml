@@ -14,10 +14,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.Course.Users[0].Email)
             </th>
+            @if(User.IsInRole("Admin") || User.IsInRole("Teacher"))
+            {
             <th>
                 Total Points
             </th>
             <th></th>
+            }        
         </tr>
     </thead>
     <tbody>
@@ -30,18 +33,20 @@
                 @Html.DisplayFor(model => user.UserEntity.LastName) 
             </td>
             <td>
-                @Html.DisplayFor(model => user.UserEntity.LastName) 
+                @Html.DisplayFor(model => user.UserEntity.Email) 
             </td>
-            <td>
-                @Html.DisplayFor(model => model.TotalPoints) 
-            </td>
-            <td>
-
-                <a class="btn btn-warning" asp-page="./UserResponseDetails">Details</a>
-            </td>
+            @if(User.IsInRole("Admin") || User.IsInRole("Teacher"))
+            {
+                <td>
+                    @user.AchievedPoints/@Html.DisplayFor(model => model.TotalPoints) 
+                </td>                        
+                <td>
+                    <a class="btn btn-warning" asp-page="./UserResponseDetails">Details</a>
+                </td>
+            }          
         </tr>
 }
     </tbody>
 </table>
 
-<a class="btn btn-primary m-2" asp-page="./DetailsCourse" asp-route-courseId="@Model.Course.Id">Back to coutse</a>
+<a class="btn btn-primary m-2" asp-page="./DetailsCourse" asp-route-courseId="@Model.Course.Id">Back to course</a>

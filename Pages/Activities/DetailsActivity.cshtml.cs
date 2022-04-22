@@ -174,6 +174,7 @@ namespace LMS.Pages.Activities
 
             UserResponse.ActivityId = Activity.Id;
             UserResponse.User = await _userManager.GetUserAsync(User);
+            UserResponse.Status = ActivityStatus.Assessed;
             Activity.UserResponses.Add(UserResponse);
             await _context.SaveChangesAsync();
 

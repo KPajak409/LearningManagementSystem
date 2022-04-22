@@ -27,7 +27,10 @@
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" asp-page="./CourseUsers" asp-route-courseId="@Model.Course.Id">Users</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            @if(User.IsInRole("Student"))
+                            {
+                                <li><a asp-page="../Student/StudentCoursePoints" asp-route-courseId="@Model.Course.Id" >Grades</a></li>
+                            }                           
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                       </ul>
                     </div>

@@ -37,41 +37,45 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Activity.EndTime)
         </dd>
-        }      
-        @if(Model.UserResponse.EarnedPoints == null)
+        }     
+        @if(Model.Activity.ActivityType != ActivityType.Information)
         {
-        <dt class="col-sm-2">
-            Points to get
-        </dt>
-        <dd class="col-sm-10">
-            0/@Html.DisplayFor(model => model.Activity.Points)
+            @if(Model.UserResponse.EarnedPoints == null)
+            {
+            <dt class="col-sm-2">
+                Points to get
+            </dt>
+            <dd class="col-sm-10">
+                0/@Html.DisplayFor(model => model.Activity.Points)
+                </dd>
+            } else if(Model.UserResponse.EarnedPoints != null)
+            {
+            <dt class="col-sm-2">
+                Points to get
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UserResponse.EarnedPoints)/@Html.DisplayFor(model => model.Activity.Points)
             </dd>
-        } else if(Model.UserResponse.EarnedPoints != null)
-        {
-        <dt class="col-sm-2">
-            Points to get
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserResponse.EarnedPoints)/@Html.DisplayFor(model => model.Activity.Points)
-        </dd>
+            }
+            @if(Model.UserResponse.Status == ActivityStatus.NotAssesed)
+            {
+            <dt class="col-sm-2">
+                Status
+            </dt> 
+            <dd class="col-sm-10 bg-danger text-light">
+                Not assessed
+            </dd>
+            } else if(Model.UserResponse.Status == ActivityStatus.Assessed)
+            {
+            <dt class="col-sm-2">
+                Status
+            </dt> 
+            <dd class="col-sm-10 bg-success text-light">
+                Assessed
+            </dd>
+            }      
         }
-        @if(Model.UserResponse.Status == ActivityStatus.NotAssesed)
-        {
-        <dt class="col-sm-2">
-            Status
-        </dt> 
-        <dd class="col-sm-10 bg-danger text-light">
-            Not assessed
-        </dd>
-        } else if(Model.UserResponse.Status == ActivityStatus.Assessed)
-        {
-        <dt class="col-sm-2">
-            Status
-        </dt> 
-        <dd class="col-sm-10 bg-success text-light">
-            Assessed
-        </dd>
-        }       
+         
         
         @if(Model.Activity.FileNames != null)
         {
@@ -86,7 +90,7 @@
                         if(file.Owner == Models.OwnerType.Teacher)
                         {
                              <ul class="d-flex flex-row list-group"> 
-                                 <li class="col-sm-3 list-group-item">@file.FileName</li>
+                                 <li class="col-sm-3 list-group-item me-2">@file.FileName</li>
                                  <li class="btn btn-primary list-group-item"><a href="@Url.Page("ActivityDetails", "DownloadActivityFile", new { fileName = file.FileName})">Download</a></li>
                             </ul>
                         }
@@ -99,15 +103,17 @@
         </dl>
         <hr />
         <div class="mt-1">
-            @if(string.IsNullOrEmpty(Model.UserResponse.Response))
+            @if(Model.Activity.ActivityType != ActivityType.Information)
             {
+                @if(string.IsNullOrEmpty(Model.UserResponse.Response))
+                {
                 <form method="post" enctype="multipart/form-data">
                      <div class="form-group mb-2 upload-file">
                     <label class="control-label"></label>
                     <input type="file" asp-for="Files" multiple />
                     </div>
                     <div class="form-group">
-                        <textarea id="txtArea" asp-for="UserResponse.Response"></textarea>
+                        <textarea id="txtArea" asp-for="UserResponse.Response" style="width: 100%; height: 20vh;"></textarea>
                         <span asp-validation-for="UserResponse.Response" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -118,9 +124,9 @@
                     </div>
                 </form>
             
-            }
-            else
-            {
+                }
+                else
+                {
                 <div class="user-response container">
                     <p class="text-weight-bold">Your response:</p>                       
                         <div class="">
@@ -144,7 +150,9 @@
                     </div>
                 </div>
                
+                }
             }
+            
         </div>
     <div class="teacher-response">
         <dl>
@@ -166,7 +174,12 @@
 <div class="ms-3 me-3 pb-3 d-flex flex-row justify-content-between">
      
      <a href='javascript:history.go(-1)'>Back to course</a>
-     <a asp-page="../Activities/DeleteActivity" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.CourseId" class="btn btn-danger">Delete</a>
+     @if(User.IsInRole("Teacher") || User.IsInRole("Admin"))
+     {
+        <a asp-page="../Activities/DeleteActivity" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.CourseId" class="btn btn-danger">Delete</a>
+        <a asp-page="../Activities/EditActivity" asp-route-activityId="@Model.Activity.Id" class="btn btn-danger">Edit</a>
+     }
+    
 </div>
 
 <script src="~\lib\jquery\dist\jquery.js"></script>

@@ -1,0 +1,67 @@
+﻿@page
+@model LMS.Pages.Activities.EditActivityModel
+
+@{
+    ViewData["Title"] = "EditActivity";
+}
+
+<h1>EditActivity</h1>
+
+<h4>Activity</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Activity.Name" class="control-label"></label>
+                <input asp-for="Activity.Name" class="form-control" />
+                <span asp-validation-for="Activity.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Activity.Details" class="control-label"></label>
+                <textarea asp-for="Activity.Details" rows="4" class="form-control"></textarea>
+                <span asp-validation-for="Activity.Details" class="text-danger"></span>
+            </div>
+            @if(Model.Activity.ActivityType != ActivityType.Information)
+            {
+                 <div class="form-group">
+                    <label asp-for="Activity.StartTime" class="control-label"></label>
+                    <input disabled asp-for="Activity.StartTime" class="form-control date" />
+                    <span asp-validation-for="Activity.StartTime" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                    <label asp-for="Activity.EndTime" class="control-label"></label>
+                    <input disabled asp-for="Activity.EndTime" class="form-control date" />
+                    <span asp-validation-for="Activity.EndTime" class="text-danger"></span>
+                 </div>
+            }
+           
+            <div class="form-group mt-1 mb-1">
+                <label asp-for="Activity.ActivityType" class="form-control" />
+                <select asp-for="Activity.ActivityType" asp-items="Html.GetEnumSelectList<ActivityType>()" id="selectActivity"></select>
+            </div>
+            @if(Model.Activity.ActivityType == ActivityType.Task)
+            {
+                <div class="form-group" id="pointsField">
+                    <label asp-for="Activity.Points" class="control-label"></label>
+                    <input disabled asp-for="Activity.Points" class="form-control" id="textPoints" />
+                    <span asp-validation-for="Activity.Points" class="text-danger"></span>
+                    <span style="font-size: 10px">If quiz selected, the number of points is equal to number of questions in quiz</span>
+                </div>
+            }      
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
