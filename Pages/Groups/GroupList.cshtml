@@ -8,7 +8,7 @@
 <h1>GroupList</h1>
 
 <p>
-    <a asp-page="./CreateGroup">Create New</a>
+    <a class="btn btn-primary" asp-page="./CreateGroup">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -16,21 +16,22 @@
             <th>
                 @Html.DisplayNameFor(model => model.Groups[0].Name)
             </th>
-            <th></th>
+            <th class="text-center">
+                Options
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model.Groups) {
         <tr>
-            <td>
+            <td class="align-middle">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
-                <a asp-page="./AssignUserToGroup" asp-route-id="@item.Id">Assign user</a> |
-                <a asp-page="./DeassignUserFromGroup" asp-route-groupId="@item.Id">Deassign user</a> |
-                <a asp-page="./EditGroup" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./GroupDetails" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./DeleteGroup" asp-route-id="@item.Id">Delete</a>
+            <td class="d-flex flex-row justify-content-center align-items-center">
+                <a class="btn btn-primary me-1" asp-page="./AssignUserToGroup" asp-route-id="@item.Id">Assign user</a> |
+                <a class="btn btn-secondary mx-1" asp-page="./DeassignUserFromGroup" asp-route-groupId="@item.Id">Deassign user</a> |
+                <a class="btn btn-success mx-1" asp-page="./EditGroup" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-danger ms-1" asp-page="./DeleteGroup" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

@@ -10,7 +10,7 @@
         <h4>@Html.DisplayFor(model => model.Activity.Name)</h4>
         @if(User.IsInRole("Teacher") || User.IsInRole("Admin"))
         {
-            <a asp-page="./ActivityUserResponses" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.CourseId"class="btn-primary btn">Student Responses</a>
+            <a asp-page="./ActivityUserResponses" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.Course.Id"class="btn-primary btn">Student Responses</a>
         }
         
     </div>
@@ -103,7 +103,7 @@
         </dl>
         <hr />
         <div class="mt-1">
-            @if(Model.Activity.ActivityType != ActivityType.Information)
+            @if(Model.Activity.ActivityType != ActivityType.Information || !User.IsInRole("Teacher"))
             {
                 @if(string.IsNullOrEmpty(Model.UserResponse.Response))
                 {
@@ -176,8 +176,11 @@
      <a href='javascript:history.go(-1)'>Back to course</a>
      @if(User.IsInRole("Teacher") || User.IsInRole("Admin"))
      {
-        <a asp-page="../Activities/DeleteActivity" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.CourseId" class="btn btn-danger">Delete</a>
-        <a asp-page="../Activities/EditActivity" asp-route-activityId="@Model.Activity.Id" class="btn btn-danger">Edit</a>
+         <div>
+        
+        <a asp-page="../Activities/EditActivity" asp-route-activityId="@Model.Activity.Id" class="btn btn-primary">Edit</a>
+        <a asp-page="../Activities/DeleteActivity" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.Course.Id" class="btn btn-danger">Delete</a>
+        </div>
      }
     
 </div>

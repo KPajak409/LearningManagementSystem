@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using LMS.Models;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using LMS.Authorization;
 
 namespace LMS.Pages.Activities
 {
@@ -18,7 +20,7 @@ namespace LMS.Pages.Activities
         private readonly LMS.Data.ApplicationDbContext _context;
         private readonly IWebHostEnvironment _environment;
         private readonly UserManager<User> _userManager;
-
+        private readonly IAuthorizationService _authorizationService;
         [BindProperty]
         public Activity Activity { get; set; }
         [BindProperty]
@@ -28,22 +30,32 @@ namespace LMS.Pages.Activities
         [BindProperty]
         public IList<FileModel> DownloadedFiles { get; set; }
         [BindProperty]
-        public int CourseId { get; set; }
+        public Course Course { get; set; }
 
-        public DetailsActivityModel(LMS.Data.ApplicationDbContext context, IWebHostEnvironment environment, UserManager<User> userManager)
+        public DetailsActivityModel(LMS.Data.ApplicationDbContext context, IWebHostEnvironment environment, UserManager<User> userManager, IAuthorizationService authorizationService)
         {
             _context = context;
             _environment = environment;
             _userManager = userManager;
+            _authorizationService = authorizationService;
         }
 
         public IActionResult OnGet(int activityId, int courseId)
         {
             Activity =  _context.Activities
+               .Include(c => c.Course)
                .FirstOrDefault(m => m.Id == activityId);
+            Course = _context.Courses
+                .Include(c => c.Users)
+                .SingleOrDefault(c => c.Id == courseId);
+
+            var authorizationResult = _authorizationService.AuthorizeAsync(User, Course, new ResourceOperationRequirement(ResourceOperation.Read)).Result;
+            if (!authorizationResult.Succeeded)
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+
             UserResponse =  _context.ActivityUserResponses
                 .FirstOrDefault(ur => ur.User.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value && ur.ActivityId == activityId);
-            CourseId = courseId;
+
 
             if (Activity == null)
             {
@@ -164,10 +176,16 @@ namespace LMS.Pages.Activities
                 }
             }
             Activity = await _context.Activities
+                .Include(c => c.Course)
                 .Include(a => a.UserResponses)
                 .Where(a => a.Id == Activity.Id)
                 .FirstOrDefaultAsync();
-            if(Activity.UserResponses == null)
+
+            var authorizationResult = _authorizationService.AuthorizeAsync(User, Activity.Course, new ResourceOperationRequirement(ResourceOperation.Respond)).Result;
+            if (!authorizationResult.Succeeded)
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+
+            if (Activity.UserResponses == null)
             {
                 Activity.UserResponses = new List<ActivityUserResponse>();
             }

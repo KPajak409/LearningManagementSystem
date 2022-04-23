@@ -1,5 +1,9 @@
 ﻿
 @model Pages.Groups.UserAssignationModel
+@{
+    var selector = string.Empty;
+    var button = string.Empty;
+}
 @if(Model.Users.Count > 0)
 {    
 
@@ -17,10 +21,13 @@
             
             <form method="post">
                 
+                <div id="userList">
 
                 @for(int i = 0; i < Model.Users.Count; i++)
                 {    
-                    <div class="row">
+                    selector = $"selector{i}";
+                    button = $"button{i}";
+                    <div class="row" >
                    <div class="col border-dark bg-light form-group">
 
                         <input asp-for="@Model.Users[i].Email" readonly class="form-control bg-light border-0" />
@@ -33,14 +40,17 @@
 
                         <input asp-for="@Model.Users[i].LastName" readonly class="form-control bg-light border-0" />
                      </div>
-                    <div class="col border-dark bg-light form-group">
-                        <input type="checkbox" asp-for="@Model.Users[i].IsSelected"/>  
+                    <div class="col border-dark bg-light form-group" id="userCheck">
+                        <input type="checkbox" asp-for="@Model.Users[i].IsSelected" id="@selector"/>  
                         <input type="hidden" asp-for="@Model.Users[i].Id"/>
+                        <input type="submit" value="Assign" id="@button" asp-route-id="@Model.Group.Id" class="btn btn-primary pt-0 pb-0"/>
                     </div>   
+                    
                     </div>
                 }
-
-            <input type="submit" value="Assign" id="btnAssign" asp-route-id="@Model.Group.Id" class="btn btn-primary mt-2"/> |
+                
+                </div>
+            <input type="submit" value="Assign" id="btnAssign" asp-route-id="@Model.Group.Id" class="btn btn-primary mt-2"/>
             </form>
             </div>       
 }
@@ -54,24 +64,14 @@ else
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-
-/*$("#btnAssign").click(function (){
-                console.log("Siemano");
-                function DataParse() {
-                    var data = Json.Parse('@Html.Raw(Json.Serialize(Model))')
-                }
-                var dataToSend
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("OnPost", new { objectStringified = Newtonsoft.Json.JsonConvert.SerializeObject(new List<User>()) })',
-                    
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
-                    },
-                    success: function(result) {
-                        alert("Poszlo");
-                        
-                    }
-                })
-            });*/
-            </script>
+    $('#userCheck input[type=submit]').each(function(index) {
+        $('#button' + index).on('mouseenter', function (){
+            $('#selector'+ index ).prop('checked', true);
+        });
+         $('#button' + index).on('mouseleave', function (){
+            $('#selector'+ index ).prop('checked', false);
+        });
+    });
+        
+    
+</script>

@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LMS.Data;
+using Microsoft.AspNetCore.Authorization;
+using LMS.Authorization;
 
 namespace LMS.Pages.Activities
 {
     public class EditActivityModel : PageModel
     {
         private readonly LMS.Data.ApplicationDbContext _context;
-
-        public EditActivityModel(LMS.Data.ApplicationDbContext context)
+        private readonly IAuthorizationService _authorizationService;
+        public EditActivityModel(LMS.Data.ApplicationDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         [BindProperty]
@@ -48,6 +51,10 @@ namespace LMS.Pages.Activities
             {
                 return Page();
             }
+    
+            var authorizationResult = _authorizationService.AuthorizeAsync(User, Activity.Course, new ResourceOperationRequirement(ResourceOperation.Update)).Result;
+            if (!authorizationResult.Succeeded)
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
 
             _context.Attach(Activity).State = EntityState.Modified;
 
@@ -67,7 +74,7 @@ namespace LMS.Pages.Activities
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./DetailsActivity", new { activityId = Activity.Id, courseId = Activity.Course.Id});
         }
 
         private bool ActivityExists(int id)

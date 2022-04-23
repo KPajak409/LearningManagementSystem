@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using LMS.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,10 +23,65 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddRazorPages();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("TeacherAdminPermission", policy =>
+    policy.RequireRole("Admin", "Teacher"));
+    options.AddPolicy("AdminPermission", policy =>
+    policy.RequireRole("Admin"));
+});
+builder.Services.AddRazorPages(options =>
+{
+    /*------------- Page folders  -------------*/
+    options.Conventions.AuthorizeFolder("/Activities");
+    options.Conventions.AuthorizeFolder("/Admin", "AdminPermission");
+    options.Conventions.AuthorizeFolder("/Courses");
+    options.Conventions.AuthorizeFolder("/Sections");
+    options.Conventions.AuthorizeFolder("/Shared");
+    options.Conventions.AuthorizeFolder("/Student");
+    options.Conventions.AuthorizeFolder("/Teacher");
+    options.Conventions.AuthorizeFolder("/Users");
+    /*------------- Activities -------------*/
+    options.Conventions.AuthorizePage("/Activities/CreateActivity", "TeacherAdminPermission");
+    options.Conventions.AuthorizePage("/Activities/EditActivity", "TeacherAdminPermission");
+    options.Conventions.AuthorizePage("/Activities/DeleteActivity", "TeacherAdminPermission");
+    /*------------- Courses -------------*/
+    options.Conventions.AuthorizePage("/Courses/CreateCourse", "TeacherAdminPermission"); 
+    options.Conventions.AuthorizePage("/Courses/EditCourse", "TeacherAdminPermission"); 
+    options.Conventions.AuthorizePage("/Courses/DeleteCourse", "TeacherAdminPermission"); 
+    options.Conventions.AuthorizePage("/Courses/CourseEditMode", "TeacherAdminPermission");
+    /*------------- Groups -------------*/
+    options.Conventions.AuthorizePage("/Groups/AssignUserToGroup", "TeacherAdminPermission"); 
+    options.Conventions.AuthorizePage("/Groups/DeassignUserFromGroup", "TeacherAdminPermission"); 
+    options.Conventions.AuthorizePage("/Groups/DeassignUserFromGroupConfirm", "TeacherAdminPermission"); 
+    options.Conventions.AuthorizePage("/Groups/CreateGroup", "TeacherAdminPermission");
+    options.Conventions.AuthorizePage("/Groups/DeleteGroup", "TeacherAdminPermission");
+    options.Conventions.AuthorizePage("/Groups/EditGroup", "TeacherAdminPermission");
+    options.Conventions.AuthorizePage("/Groups/GroupList", "TeacherAdminPermission");
+    options.Conventions.AuthorizePage("/Groups/UserAssignation", "TeacherAdminPermission");
+    /*------------- Sections -------------*/
+    options.Conventions.AuthorizePage("/Sections/CreateSection", "TeacherAdminPermission");
+    options.Conventions.AuthorizePage("/Sections/DeleteSection", "TeacherAdminPermission");
+    options.Conventions.AuthorizePage("/Sections/EditSection", "TeacherAdminPermission");
+    /*------------- Shared -------------*/
+    options.Conventions.AuthorizePage("/Shared/_LayoutAdmin");
+    options.Conventions.AuthorizePage("/Shared/_LayoutTeacher");
+    options.Conventions.AuthorizePage("/Shared/_QuestionCreate");
+    options.Conventions.AuthorizePage("/Shared/_UserListForm");
+    options.Conventions.AuthorizePage("/Shared/_UsersList");
+    //options.Conventions.AuthorizePage("/");
+    /*------------- Users -------------*/
+    options.Conventions.AuthorizePage("/Users/CreateUser", "AdminPermission");
+    options.Conventions.AuthorizePage("/Users/DeleteUser", "AdminPermission"); 
+    options.Conventions.AuthorizePage("/Users/EditUser", "AdminPermission");
+    options.Conventions.AuthorizePage("/Users/UserDetails", "AdminPermission");
+
+});
 builder.Services.AddControllersWithViews().AddRazorPagesOptions(options => {
     options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
 });
+
+builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementCourseHandler>();
 builder.Services.AddScoped<DbInitializer>();
 builder.Services.AddScoped<ApplicationMappingProfile>();
 //builder.Services.AddScoped<IHostingEnvironment>(env);

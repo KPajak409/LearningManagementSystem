@@ -7,23 +7,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LMS.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace LMS.Pages.Teacher
 {
     public class IndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly LMS.Data.ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(LMS.Data.ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public IList<LMS.Data.Course> Course { get;set; }
+        public IList<Course> Courses { get; set; }
 
         public async Task OnGetAsync()
         {
-            Course = await _context.Courses
+            var user = await _userManager.GetUserAsync(User);
+            Courses = await _context.Courses
+                .Where(c => c.AuthorId == user.Id)
                 .ToListAsync();
         }
     }

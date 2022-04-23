@@ -7,7 +7,7 @@
 <div class="d-flex flex-row justify-content-between align-items-center p-3">
     <h1>@Html.DisplayFor(model => model.Activity.Name)</h1>
     <a asp-page="./QuizQuestionsList" asp-route-activityid="@Model.Activity.Id" class="h-75 mx-2 btn btn-primary">Add questions</a>
-    <a asp-page="./ActivityUserResponses" asp-route-activityid="@Model.Activity.Id" asp-route-courseId="@Model.CourseId" class="h-75 btn btn-primary">Student results</a>
+    <a asp-page="./ActivityUserResponses" asp-route-activityid="@Model.Activity.Id" asp-route-courseId="@Model.Course.Id" class="h-75 btn btn-primary">Student results</a>
 </div>
 <div>
     <hr />
@@ -64,32 +64,7 @@ else
     <button type="button" class="btn btn-secondary" disabled>Start quiz</button>
 }
 
-    <div class="quiz-results">
-        <table class="table table-sm">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Result</th>
-
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-    </tr>
-  </tbody>
-</table>
-    </div>
+   
 <div>
      <a href='javascript:history.go(-1)'>Back to course</a>
 </div>

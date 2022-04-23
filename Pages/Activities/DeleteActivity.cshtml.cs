@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LMS.Data;
+using Microsoft.AspNetCore.Authorization;
+using LMS.Authorization;
 
 namespace LMS.Pages.Activities
 {
     public class DeleteActivityModel : PageModel
     {
         private readonly LMS.Data.ApplicationDbContext _context;
-
-        public DeleteActivityModel(LMS.Data.ApplicationDbContext context)
+        private readonly IAuthorizationService _authorizationService;
+        public DeleteActivityModel(LMS.Data.ApplicationDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         [BindProperty]
@@ -43,6 +46,10 @@ namespace LMS.Pages.Activities
         {
 
             Activity = await _context.Activities.FindAsync(Activity.Id);
+
+            var authorizationResult = _authorizationService.AuthorizeAsync(User, Activity.Course, new ResourceOperationRequirement(ResourceOperation.Delete)).Result;
+            if (!authorizationResult.Succeeded)
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
 
             if (Activity != null)
             {
