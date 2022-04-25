@@ -13,7 +13,7 @@ namespace LMS.Data
         [Required]
         public string LastName { get; set; }
         public bool IsSelected { get; set; }
-        public virtual IList<Group> Groups { get; set; } = new List<Group>();
-        public virtual IList<Course> Courses { get; set; }
+        public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+        public virtual ICollection<Course> Courses { get; set; }
     }
 }

@@ -29,6 +29,8 @@ builder.Services.AddAuthorization(options =>
     policy.RequireRole("Admin", "Teacher"));
     options.AddPolicy("AdminPermission", policy =>
     policy.RequireRole("Admin"));
+    options.AddPolicy("TeacherPermission", policy =>
+    policy.RequireRole("Teacher"));
 });
 builder.Services.AddRazorPages(options =>
 {
@@ -39,7 +41,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizeFolder("/Sections");
     options.Conventions.AuthorizeFolder("/Shared");
     options.Conventions.AuthorizeFolder("/Student");
-    options.Conventions.AuthorizeFolder("/Teacher");
+    options.Conventions.AuthorizeFolder("/Teacher", "TeacherPermission");
     options.Conventions.AuthorizeFolder("/Users");
     /*------------- Activities -------------*/
     options.Conventions.AuthorizePage("/Activities/CreateActivity", "TeacherAdminPermission");

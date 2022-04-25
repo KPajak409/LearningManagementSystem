@@ -7,10 +7,10 @@ namespace LMS.Data
         [Key]
         public int Id { get; set; }
         public int ActivityId { get; set; }
-        public Activity Activity { get; set; }
-        public QuestionType QuestionType { get; set; }
+        public virtual Activity Activity { get; set; }
+        public virtual QuestionType QuestionType { get; set; }
         public string Content { get; set; } = null!;
-        public IList<Answer> Answers { get; set; }
+        public virtual IList<Answer> Answers { get; set; }
         
 
         

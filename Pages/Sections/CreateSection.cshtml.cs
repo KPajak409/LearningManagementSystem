@@ -40,7 +40,7 @@ namespace LMS.Pages.Sections
             var sectionsInCourse = _context.Sections
                 .Where(x => x.CourseId == courseId)
                 .OrderBy(x => x.Position).ToList();
-            if(sectionsInCourse.Count ==0)
+            if(sectionsInCourse.Count == 0)
             {
                 Section.Position = 1;
             } else

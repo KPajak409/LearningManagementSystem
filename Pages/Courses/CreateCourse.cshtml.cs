@@ -16,11 +16,11 @@ namespace LMS.Pages.Courses
 {
     public class CreateCourseModel : PageModel
     {
-        private readonly LMS.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
-        public CreateCourseModel(LMS.Data.ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
+        public CreateCourseModel(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
         {
             _context = context;
             _mapper = mapper;

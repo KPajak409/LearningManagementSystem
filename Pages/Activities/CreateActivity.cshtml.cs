@@ -14,8 +14,15 @@ namespace LMS.Pages.Activities
 {
     public class CreateActivityModel : PageModel
     {
-        private readonly LMS.Data.ApplicationDbContext _context;
-        private IWebHostEnvironment _environment;
+        private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _environment;
+
+        
+        public CreateActivityModel(ApplicationDbContext context, IWebHostEnvironment environment)
+        {
+            _context = context;
+            _environment = environment;
+        }
 
         [BindProperty]
         public Activity Activity { get; set; }
@@ -25,11 +32,6 @@ namespace LMS.Pages.Activities
         public IList<IFormFile> Files { get; set; } = new List<IFormFile>();
         [BindProperty]
         public string FileName { get; set; } = string.Empty;
-        public CreateActivityModel(LMS.Data.ApplicationDbContext context, IWebHostEnvironment environment)
-        {
-            _context = context;
-            _environment = environment;
-        }
 
         public IActionResult OnGet()
         {

@@ -14,6 +14,14 @@ namespace LMS.Pages.Users
         private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _context;
         private static Random random = new Random();
+        
+
+        public CreateUserModel(UserManager<User> userManager, ApplicationDbContext context)
+        {
+            _userManager = userManager;
+            _context = context;
+        }
+
         public Email Email { get; set; } = new Email();
         public List<SelectListItem> SelectListItems { get; set; }
         [BindProperty]
@@ -22,12 +30,6 @@ namespace LMS.Pages.Users
         public string SelectedRole { get; set; }
         public string Error { get; set; }
 
-        public CreateUserModel(UserManager<User> userManager, ApplicationDbContext context)
-        {
-            _userManager = userManager;
-            _context = context;
-        }
-        
         public IActionResult OnGet()
         {
             SelectListItems = _context.Roles.Select(i => new SelectListItem

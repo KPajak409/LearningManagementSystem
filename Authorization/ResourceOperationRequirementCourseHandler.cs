@@ -6,11 +6,11 @@ namespace LMS.Authorization
 {
     public class ResourceOperationRequirementCourseHandler : AuthorizationHandler<ResourceOperationRequirement, Course>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ResourceOperationRequirement requirement, Course course)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, 
+            ResourceOperationRequirement requirement, Course course)
         {
             var userId = context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            bool isS = course.Users.Any(u => u.Id == userId);
-            isS = course.AuthorId == userId;
+
             if ((requirement.ResourceOperation == ResourceOperation.Read) &&
                 (course.Users.Any(u => u.Id == userId) || course.AuthorId == userId || context.User.IsInRole("Admin")))
             { 
@@ -25,8 +25,8 @@ namespace LMS.Authorization
 
             if ((requirement.ResourceOperation == ResourceOperation.Update ||
                 requirement.ResourceOperation == ResourceOperation.Delete) && 
-                course.AuthorId == userId ||
-                context.User.IsInRole("Admin"))           
+                (course.AuthorId == userId ||
+                context.User.IsInRole("Admin")))           
             {
                 context.Succeed(requirement);
             }
