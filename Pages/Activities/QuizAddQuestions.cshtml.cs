@@ -25,17 +25,17 @@ namespace LMS.Pages.Activities
             Activity = _context.Activities.SingleOrDefault(a => a.Id == activityId);
 
             Question = new Question();
-            Question.Answers = new List<Answer>();
+            Answers = new List<Answer>();
             Question.QuestionType = questionType;
 
             for(int i =0; i < numberOfAnswers; i++)
             {
-                Question.Answers.Add(new Answer());
+                Answers.Add(new Answer());
             }
             return Page();
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost(List<Answer> answers)
         {
             Activity = await _context.Activities.SingleOrDefaultAsync(a => a.Id == Activity.Id);
             if(Activity.Points == null)

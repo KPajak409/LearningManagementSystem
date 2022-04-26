@@ -2,12 +2,12 @@
 @model LMS.Pages.Activities.QuizQuestionsListModel
 @{
 }
-<div class="m-2 d-flex flex-column">
+<div class="col-md-6 m-2 d-flex flex-column">
     <label asp-for="@Model.QuestionType" class="mt-2"></label>
     <select asp-items="Html.GetEnumSelectList<QuestionType>()" id="selectQuestion"></select>
 
     <label>Choose a number of answers:</label>
-    <input type="number" id="answersQuantity"/>
+    <input type="number" value="2" min="2" max="6" class="col-md-2" id="answersQuantity"/>
     
 </div>
 <a class="btn btn-secondary m-2 " id="createQuestion">Create question</a>
@@ -35,7 +35,7 @@
 
 </div>
 
-<a class="btn btn-primary m-2" asp-page="./QuizDetails" asp-route-activityId="@Model.Activity.Id">Back to activity</a>
+<a class="btn btn-primary m-2" asp-page="./QuizDetails" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.Activity.Course.Id">Back to activity</a>
 @section Scripts
 {
     <script>

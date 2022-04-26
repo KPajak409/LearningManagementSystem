@@ -5,34 +5,32 @@
     ViewData["Title"] = "EditCourse";
 }
 
-<h1>EditCourse</h1>
+<h1>Edit Course</h1>
 
-<h4>Course</h4>
+<h4>@Model.Course.Name</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Course.Id" />
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="Course.Id" />       
             <div class="form-group">
                 <label asp-for="Course.Name" class="control-label"></label>
                 <input asp-for="Course.Name" class="form-control" />
                 <span asp-validation-for="Course.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Course.AuthorName" class="control-label"></label>
                 <input type="hidden" asp-for="Course.AuthorName" class="form-control" />
-                <span asp-validation-for="Course.AuthorName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Course.Description" class="control-label"></label>
                 <input asp-for="Course.Description" class="form-control" />
                 <span asp-validation-for="Course.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" placeholder="Leave empty if you want to remove password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="hidden" asp-for="Course.AuthorId" />

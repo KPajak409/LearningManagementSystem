@@ -36,6 +36,10 @@ namespace LMS.Pages.Groups
         }
         public async Task<PartialViewResult> OnGetSelectUsers(int id, string searchPhrase, string viewName)
         {
+            if(searchPhrase == null)
+            { 
+                return Partial(viewName, new List<User>()); 
+            }
              searchPhrase = searchPhrase.ToUpper();
              UserAssign.Users = await _context.Users
                         .Where(u => u.FirstName.ToUpper().Contains(searchPhrase) || u.LastName.ToUpper().Contains(searchPhrase)).ToListAsync();
@@ -76,6 +80,7 @@ namespace LMS.Pages.Groups
                 } else
                 {
                     ErrMsg = "User: " + user.FirstName + " "+ user.LastName + " already in group.";
+                    await OnGet(id);
                     return Page();
                 }
                     

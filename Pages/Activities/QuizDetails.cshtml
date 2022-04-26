@@ -9,7 +9,7 @@
     <a asp-page="./QuizQuestionsList" asp-route-activityid="@Model.Activity.Id" class="h-75 mx-2 btn btn-primary">Add questions</a>
     <a asp-page="./ActivityUserResponses" asp-route-activityid="@Model.Activity.Id" asp-route-courseId="@Model.Course.Id" class="h-75 btn btn-primary">Student results</a>
 </div>
-<div>
+<div class="p-2">
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -21,7 +21,7 @@
          @if(Model.Activity.StartTime != null)
         {
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Activity.StartTime)
+            Start Time
         </dt> 
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Activity.StartTime)
@@ -30,7 +30,7 @@
          @if(Model.Activity.EndTime != null)
         {
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Activity.EndTime)
+            End Time
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Activity.EndTime)
@@ -55,16 +55,24 @@
         }
     </dl>
 </div>
+@if(!User.IsInRole("Teacher"))
+{
     @if(Model.Activity.StartTime < DateTime.Now && Model.Activity.EndTime > DateTime.Now && Model.UserResponse.Status != ActivityStatus.QuizEnded)
     {
-    <a asp-page="./QuizUserStart" asp-route-activityId="@Model.Activity.Id" class="btn btn-primary">Start quiz</a>
+    <a asp-page="./QuizUserStart" asp-route-activityId="@Model.Activity.Id" class="btn btn-primary ms-2">Start quiz</a>
 }
 else
 {
-    <button type="button" class="btn btn-secondary" disabled>Start quiz</button>
+    <button type="button" class="btn btn-secondary ms-2" disabled>Start quiz</button>
+}
 }
 
+
    
-<div>
+<div class="d-flex flex-row justify-content-between align-items-center p-2">
      <a href='javascript:history.go(-1)'>Back to course</a>
+     <div>  
+     <a asp-page="./EditActivity" asp-route-activityId="@Model.Activity.Id" class="btn btn-primary">Edit</a>
+     <a asp-page="./DeleteActivity" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.Activity.Course.Id" class="btn btn-danger">Delete</a>
+     </div>
 </div>

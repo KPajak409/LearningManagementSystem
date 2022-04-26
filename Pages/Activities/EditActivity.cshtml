@@ -28,25 +28,20 @@
             {
                  <div class="form-group">
                     <label asp-for="Activity.StartTime" class="control-label"></label>
-                    <input disabled asp-for="Activity.StartTime" class="form-control date" />
+                    <input asp-for="Activity.StartTime" class="form-control date" />
                     <span asp-validation-for="Activity.StartTime" class="text-danger"></span>
                  </div>
                  <div class="form-group">
                     <label asp-for="Activity.EndTime" class="control-label"></label>
-                    <input disabled asp-for="Activity.EndTime" class="form-control date" />
+                    <input asp-for="Activity.EndTime" class="form-control date" />
                     <span asp-validation-for="Activity.EndTime" class="text-danger"></span>
                  </div>
             }
-           
-            <div class="form-group mt-1 mb-1">
-                <label asp-for="Activity.ActivityType" class="form-control" />
-                <select asp-for="Activity.ActivityType" asp-items="Html.GetEnumSelectList<ActivityType>()" id="selectActivity"></select>
-            </div>
             @if(Model.Activity.ActivityType == ActivityType.Task)
             {
                 <div class="form-group" id="pointsField">
                     <label asp-for="Activity.Points" class="control-label"></label>
-                    <input disabled asp-for="Activity.Points" class="form-control" id="textPoints" />
+                    <input asp-for="Activity.Points" class="form-control" id="textPoints" />
                     <span asp-validation-for="Activity.Points" class="text-danger"></span>
                     <span style="font-size: 10px">If quiz selected, the number of points is equal to number of questions in quiz</span>
                 </div>

@@ -12,16 +12,17 @@
             <input asp-for="@Model.Question.Content" class="form-control" />
             <input type="hidden" asp-for="@Model.Activity.Id" />
         </div>
-        @for(int i = 0;  i<Model.Question.Answers.Count; i++)
+        @for(int i = 0;  i<Model.Answers.Count; i++)
         {
             <div class="form-group d-flex flex-row">
                 <div>
                     <label class="control-label">Answer content</label>
-                    <input asp-for="@Model.Question.Answers[i].Content" class="form-control" />
+                    <input asp-for="@Model.Answers[i].Content" class="form-control" />
                 </div>
                 <div class="col-md-8 d-flex align-items-center">
-                    <input type="radio" asp-for="@Model.Question.Answers[i].IsCorrect" value="true" />
-                    <label asp-for="@Model.Question.Answers[i].IsCorrect" class="control-label"></label>
+                    <input type="radio" name="@Model.Question.Id" value="@Model.Answers[i].IsCorrect" />
+                    
+                    <label asp-for="@Model.Answers[i].IsCorrect" class="control-label"></label>
                     
                 </div>
                            

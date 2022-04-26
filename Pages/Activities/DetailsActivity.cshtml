@@ -18,12 +18,12 @@
     <hr />
     <div class="activity-details">@Html.DisplayFor(model => model.Activity.Details)</div>
     <hr />
-    <dl class="row">
+    <dl class="row me-1">
         
         @if(Model.Activity.StartTime != null)
         {
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Activity.StartTime)
+           Start Time
         </dt> 
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Activity.StartTime)
@@ -32,7 +32,7 @@
          @if(Model.Activity.EndTime != null)
         {
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Activity.EndTime)
+            End Time
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Activity.EndTime)
@@ -48,7 +48,7 @@
             <dd class="col-sm-10">
                 0/@Html.DisplayFor(model => model.Activity.Points)
                 </dd>
-            } else if(Model.UserResponse.EarnedPoints != null)
+            } else if(Model.UserResponse.EarnedPoints != null && !User.IsInRole("Teacher"))
             {
             <dt class="col-sm-2">
                 Points to get
@@ -57,12 +57,15 @@
                 @Html.DisplayFor(model => model.UserResponse.EarnedPoints)/@Html.DisplayFor(model => model.Activity.Points)
             </dd>
             }
+            @if(!User.IsInRole("Teacher"))
+            {
+
             @if(Model.UserResponse.Status == ActivityStatus.NotAssesed)
             {
             <dt class="col-sm-2">
                 Status
             </dt> 
-            <dd class="col-sm-10 bg-danger text-light">
+            <dd class="col-sm-10 border rounded bg-danger text-light">
                 Not assessed
             </dd>
             } else if(Model.UserResponse.Status == ActivityStatus.Assessed)
@@ -70,10 +73,20 @@
             <dt class="col-sm-2">
                 Status
             </dt> 
-            <dd class="col-sm-10 bg-success text-light">
+            <dd class="col-sm-10 border rounded bg-success text-light">
                 Assessed
             </dd>
-            }      
+            }     else if(Model.UserResponse.Status == ActivityStatus.Pending)
+            {
+            <dt class="col-sm-2">
+                Status
+            </dt> 
+            <dd class="col-sm-10 border rounded bg-warning text-dark">
+                Pending
+            </dd>
+            }  
+                            
+            }
         }
          
         
@@ -85,25 +98,25 @@
             <dd class="col-sm-10">
                 <div class="">
                     @foreach(var file in Model.DownloadedFiles)
-                    {
-                        
+                    {                     
                         if(file.Owner == Models.OwnerType.Teacher)
                         {
                              <ul class="d-flex flex-row list-group"> 
                                  <li class="col-sm-3 list-group-item me-2">@file.FileName</li>
-                                 <li class="btn btn-primary list-group-item"><a href="@Url.Page("ActivityDetails", "DownloadActivityFile", new { fileName = file.FileName})">Download</a></li>
+                                 <li class="btn btn-primary list-group-item">
+                                     <a href="@Url.Page("ActivityDetails", "DownloadActivityFile", new { fileName = file.FileName})">Download</a>
+                                 </li>
                             </ul>
-                        }
-                       
+                        }                  
                     }
                 </div>
-        </dd>
+            </dd>
         }
        
         </dl>
         <hr />
         <div class="mt-1">
-            @if(Model.Activity.ActivityType != ActivityType.Information || !User.IsInRole("Teacher"))
+            @if(Model.Activity.ActivityType != ActivityType.Information && !User.IsInRole("Teacher"))
             {
                 @if(string.IsNullOrEmpty(Model.UserResponse.Response))
                 {
@@ -127,8 +140,8 @@
                 }
                 else
                 {
-                <div class="user-response container">
-                    <p class="text-weight-bold">Your response:</p>                       
+                <div class="user-response container px-0 mb-1">
+                    <p class="fw-bold">Your response:</p>                       
                         <div class="">
                     @foreach(var file in Model.DownloadedFiles)
                     {
@@ -185,8 +198,8 @@
     
 </div>
 
-<script src="~\lib\jquery\dist\jquery.js"></script>
- <script src="https://cdn.tiny.cloud/1/q38xgbr30eh8ekil5frr1secqbrw3t0rxik53eoz5td9auw0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+ <script src="https://cdn.tiny.cloud/1/q38xgbr30eh8ekil5frr1secqbrw3t0rxik53eoz5td9auw0/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
  <script>
     tinymce.init({
       selector: 'textarea',

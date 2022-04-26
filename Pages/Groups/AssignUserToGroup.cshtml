@@ -20,7 +20,7 @@
             <input type="text" class="form-control mb-1" placeholder="Search Users"  id="txtSearch"/>
             <button class="btn btn-success" type="button" id="btnSearch">Search</button>
         </div>
-
+        
     </form>
 </div>
 <div id="userItemsContainer">
@@ -39,9 +39,11 @@
     <script type="text/javascript">
       
          $("#btnSearch").on("click", function (){
-             $("#userItemsContainer").load("AssignUserToGroup?handler=SelectUsers" + "&id=" + @Model.Group.Id + "&searchPhrase=" + $("#txtSearch").val() + "&viewName=_UserListForm")
+             $("#userItemsContainer").load("AssignUserToGroup?handler=SelectUsers" + "&id=" + @Model.Group.Id + 
+             "&searchPhrase=" + $("#txtSearch").val() + "&viewName=_UserListForm")
          });
             $("#btnAssign").on("click", function (){
-             $("#usersInGroup").load("AssignUserToGroup?handler=SelectUsersInCurrentGroup" + "&id=" + @Model.Group.Id + "&viewName=_UsersList")
+             $("#usersInGroup").load("AssignUserToGroup?handler=SelectUsersInCurrentGroup" + "&id=" + @Model.Group.Id + 
+             "&viewName=_UsersList")
          });
             </script>

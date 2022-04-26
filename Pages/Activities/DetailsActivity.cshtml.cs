@@ -72,8 +72,6 @@ namespace LMS.Pages.Activities
             if (Directory.Exists(curDir))
             {
                 var sourceFilePaths = Directory.GetFiles(Path.Combine(_environment.ContentRootPath, "Files\\Activities\\" + $"{Activity.Id}\\"));
-
-
                 foreach (string filePath in sourceFilePaths)
                 {
                     var fileName = Path.GetFileName(filePath);
@@ -180,8 +178,11 @@ namespace LMS.Pages.Activities
                 .Include(a => a.UserResponses)
                 .Where(a => a.Id == Activity.Id)
                 .FirstOrDefaultAsync();
-
-            var authorizationResult = _authorizationService.AuthorizeAsync(User, Activity.Course, new ResourceOperationRequirement(ResourceOperation.Respond)).Result;
+            var courseUsers = _context.Courses
+                .Include(c => c.Users)
+                .Where(c => c.Id == Activity.Course.Id)
+                .FirstOrDefault();
+            var authorizationResult = _authorizationService.AuthorizeAsync(User, courseUsers, new ResourceOperationRequirement(ResourceOperation.Respond)).Result;
             if (!authorizationResult.Succeeded)
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
 
@@ -192,7 +193,7 @@ namespace LMS.Pages.Activities
 
             UserResponse.ActivityId = Activity.Id;
             UserResponse.User = await _userManager.GetUserAsync(User);
-            UserResponse.Status = ActivityStatus.Assessed;
+            UserResponse.Status = ActivityStatus.Pending;
             Activity.UserResponses.Add(UserResponse);
             await _context.SaveChangesAsync();
 

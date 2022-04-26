@@ -3,6 +3,7 @@
     public enum ActivityStatus
     {
         NotAssesed,
+        Pending,
         Assessed,
         QuizActive,
         QuizEnded

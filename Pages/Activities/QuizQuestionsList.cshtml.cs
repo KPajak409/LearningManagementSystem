@@ -27,7 +27,9 @@ namespace LMS.Pages.Activities
                 .Include(q => q.Answers)
                 .Where(q => q.ActivityId == activityId)
                 .ToListAsync();
-            Activity = await _context.Activities.FirstOrDefaultAsync(a => a.Id == activityId);
+            Activity = await _context.Activities
+                .Include(a => a.Course)
+                .FirstOrDefaultAsync(a => a.Id == activityId);
             if(Questions is null)
             {
                 Questions=new List<Question>();
