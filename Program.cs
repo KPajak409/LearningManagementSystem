@@ -6,6 +6,7 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using LMS.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,9 +80,13 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizePage("/Users/UserDetails", "AdminPermission");
 
 });
-builder.Services.AddControllersWithViews().AddRazorPagesOptions(options => {
+builder.Services.AddControllersWithViews().AddRazorPagesOptions(options =>
+{
     options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
+    
 });
+
+
 
 builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementCourseHandler>();
 builder.Services.AddScoped<DbInitializer>();

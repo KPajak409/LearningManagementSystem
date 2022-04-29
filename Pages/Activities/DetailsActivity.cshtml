@@ -103,8 +103,8 @@
                         {
                              <ul class="d-flex flex-row list-group"> 
                                  <li class="col-sm-3 list-group-item me-2">@file.FileName</li>
-                                 <li class="btn btn-primary list-group-item">
-                                     <a href="@Url.Page("ActivityDetails", "DownloadActivityFile", new { fileName = file.FileName})">Download</a>
+                                 <li class="btn btn-primary bg-secondary list-group-item">
+                                     <a href="@Url.Page("ActivityDetails", "DownloadActivityFile", new { fileName = file.FileName})" class="btn btn-secondary">Download</a>
                                  </li>
                             </ul>
                         }                  
@@ -116,9 +116,9 @@
         </dl>
         <hr />
         <div class="mt-1">
-            @if(Model.Activity.ActivityType != ActivityType.Information && !User.IsInRole("Teacher"))
+            @if(Model.Activity.ActivityType != ActivityType.Information && !User.IsInRole("Teacher") )
             {
-                @if(string.IsNullOrEmpty(Model.UserResponse.Response))
+                @if(string.IsNullOrEmpty(Model.UserResponse.Response) && Model.UserResponse.Status == ActivityStatus.NotAssesed)
                 {
                 <form method="post" enctype="multipart/form-data">
                      <div class="form-group mb-2 upload-file">
@@ -150,7 +150,9 @@
                         {
                              <ul class="d-flex flex-row list-group"> 
                                  <li class="col-sm-3 list-group-item">@file.FileName</li>
-                                 <li class="btn btn-primary list-group-item"><a href="@Url.Page("ActivityDetails", "DownloadResponseFile", new { fileName = file.FileName})">Download</a></li>
+                                 <li class="btn bg-secondary btn-primary list-group-item">
+                                     <a href="@Url.Page("ActivityDetails", "DownloadResponseFile", new { fileName = file.FileName})" class="btn btn-secondary">Download</a>
+                                     </li>
                             </ul>
                         }
                        
@@ -158,7 +160,7 @@
                     </div>
                  
                 
-                    <div class="user-response-text border p-1">
+                    <div class="user-response-text border p-1 mt-1">
                         @Html.Raw(Model.UserResponse.Response)
                     </div>
                 </div>

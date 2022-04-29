@@ -66,7 +66,7 @@ namespace LMS.Pages.Groups
                 }
             }
 
-            return RedirectToPage("./GroupDetails", new { id = Group.Id});
+            return RedirectToPage("./GroupList");
         }
 
         private bool GroupExists(int id)

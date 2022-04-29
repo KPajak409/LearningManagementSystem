@@ -43,7 +43,7 @@ namespace LMS.Pages.Courses
                 var userActivities = await _context.ActivityUserResponses
                     .Where(a => a.User.Id == user.Id)
                     .ToListAsync();
-                int? totalUserPoints = 0;
+                decimal? totalUserPoints = 0;
                 foreach (var activity in userActivities)
                 {
                     if(activity.EarnedPoints != null)

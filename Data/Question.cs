@@ -9,8 +9,9 @@ namespace LMS.Data
         public int ActivityId { get; set; }
         public virtual Activity Activity { get; set; }
         public virtual QuestionType QuestionType { get; set; }
+        [Required]
         public string Content { get; set; } = null!;
-        public virtual IList<Answer> Answers { get; set; }
+        public virtual IList<Answer> Answers { get; set; } = null!;
         
 
         

@@ -41,7 +41,8 @@
     <script>
          $("#createQuestion").click(function ()
          {
-            var url = 'QuizAddQuestions?activityId=' + @Model.Activity.Id + "&numberOfAnswers=" + $("#answersQuantity").val(); + "&questionType=" + $("#selectQuestion").val();;
+            console.log($("#selectQuestion").val());
+            var url = 'QuizAddQuestions?activityId=' + @Model.Activity.Id + "&numberOfAnswers=" + $("#answersQuantity").val(); + "&questionType=" + $("#selectQuestion").val();
             window.location.href = url;                
          });
     </script>

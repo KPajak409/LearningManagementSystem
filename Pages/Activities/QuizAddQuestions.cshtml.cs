@@ -26,7 +26,7 @@ namespace LMS.Pages.Activities
 
             Question = new Question();
             Answers = new List<Answer>();
-            Question.QuestionType = questionType;
+            Question.QuestionType = (QuestionType)questionType;
 
             for(int i =0; i < numberOfAnswers; i++)
             {
@@ -35,7 +35,7 @@ namespace LMS.Pages.Activities
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(List<Answer> answers)
+        public async Task<IActionResult> OnPost()
         {
             Activity = await _context.Activities.SingleOrDefaultAsync(a => a.Id == Activity.Id);
             if(Activity.Points == null)
@@ -47,6 +47,7 @@ namespace LMS.Pages.Activities
                 Activity.Points +=  1; 
             }
             Question.Activity = Activity;
+            Question.Answers = Answers;
             _context.Questions.Add(Question);
             await _context.SaveChangesAsync();
             return RedirectToPage("QuizQuestionsList", new { activityId = Activity.Id});

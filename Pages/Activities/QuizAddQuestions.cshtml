@@ -10,23 +10,28 @@
         <div class="form-group">
             <label class="control-label mt-2">Question content</label>
             <input asp-for="@Model.Question.Content" class="form-control" />
+            <span asp-validation-for="@Model.Question.Content" class="text-danger"></span>
             <input type="hidden" asp-for="@Model.Activity.Id" />
         </div>
         @for(int i = 0;  i<Model.Answers.Count; i++)
         {
-            <div class="form-group d-flex flex-row">
+            
+            if(Model.Question.QuestionType == QuestionType.CloseEndedMultipleChoice)
+            {
+                <div class="form-group d-flex flex-row">
                 <div>
-                    <label class="control-label">Answer content</label>
+                    <label class="control-label mx-1">Answer content</label>
                     <input asp-for="@Model.Answers[i].Content" class="form-control" />
+                    <span asp-validation-for="@Model.Answers[i].Content" class="text-danger"></span>
                 </div>
                 <div class="col-md-8 d-flex align-items-center">
-                    <input type="radio" name="@Model.Question.Id" value="@Model.Answers[i].IsCorrect" />
-                    
-                    <label asp-for="@Model.Answers[i].IsCorrect" class="control-label"></label>
-                    
+                    <label class="control-label">Is Correct</label>
+                    <input type="checkbox" asp-for="@Model.Answers[i].IsCorrect" />                                    
+
                 </div>
                            
-            </div>
+                </div>
+            }
         }
         <input type="submit" value="Create" class="btn btn-primary mt-2 mb-2" />
     </form>
@@ -35,5 +40,8 @@
 
 <a class="btn btn-primary m-2" asp-page="./QuizQuestionsList" asp-route-activityId="@Model.Activity.Id">Back to activity</a>
 
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+}
 

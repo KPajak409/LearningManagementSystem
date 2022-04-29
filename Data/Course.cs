@@ -9,6 +9,7 @@ namespace LMS.Data
         public string AuthorId { get; set; }
         public string AuthorName { get; set; }
         public string PasswordHash { get; set; }
+        [Required]
         public string Name { get; set; } = null!;
         public string Description { get; set; }
         public virtual IList<Section> Sections { get; set; } = new List<Section>();

@@ -1,9 +1,12 @@
 ﻿@page
+@using System.Security.Claims
 @model LMS.Pages.Courses.DetailsCourseModel
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "CourseEditMode";
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
 }
 @if(SignInManager.IsSignedIn(User))
 {
@@ -29,9 +32,8 @@
                             <li><a class="dropdown-item" asp-page="./CourseUsers" asp-route-courseId="@Model.Course.Id">Users</a></li>
                             @if(User.IsInRole("Student"))
                             {
-                                <li><a asp-page="../Student/StudentCoursePoints" asp-route-courseId="@Model.Course.Id" >Grades</a></li>
+                                <li><a class="dropdown-item" asp-page="../Student/StudentCoursePoints" asp-route-courseId="@Model.Course.Id" asp-route-studentId="@userId">My points</a></li>
                             }                           
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
                       </ul>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LMS.Data
 {
@@ -9,11 +10,10 @@ namespace LMS.Data
         public virtual User User { get; set; }
         public int ActivityId { get; set; }
         public virtual Activity Activity { get; set; }
-        [Required]
-        [MinLength(5)]
-        public string Response { get; set; } = string.Empty;
+        public string Response { get; set; }
         public string ResponseFileNames { get; set; } = string.Empty;
-        public int? EarnedPoints { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? EarnedPoints { get; set; }
         public string Comment { get; set; } = null!;
         public ActivityStatus Status { get; set; }
     }

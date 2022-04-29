@@ -1,10 +1,12 @@
 ﻿@page
+@using System.Security.Claims
 @model LMS.Pages.Courses.CourseEditModeModel
 @{
     ViewData["Title"] = "CourseEditMode";
     var authorfullName = Model.Course.AuthorName;
     if (string.IsNullOrEmpty(authorfullName)) 
         authorfullName = "nieznany";
+
 }
 
  <div class="container-fluid">
@@ -23,9 +25,10 @@
                         Settings
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Users</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" asp-page="./CourseUsers" asp-route-courseId="@Model.Course.Id">Users</a></li>
+
+                            
+                                   
                       </ul>
                     </div>
                 </div>
@@ -46,7 +49,7 @@
                   <div>
                       <a class="btn btn-success" asp-page="../Activities/CreateActivity" asp-route-courseId="@Model.Course.Id" asp-route-sectionId="@item.Id">Add activity</a>
                       <a class="btn btn-success" asp-page="../Sections/EditSection" asp-route-courseid="@Model.Course.Id" asp-route-sectionid="@item.Id">Edit</a> 
-                      <a class="btn btn-danger text-light " asp-page="../Sections/DeleteSection" asp-route-id="@item.Id">Delete</a>
+                      <a class="btn btn-danger text-light " asp-page="../Sections/DeleteSection" asp-route-sectionId="@item.Id">Delete</a>
                   </div>                 
             </div>
 

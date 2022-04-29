@@ -2,3 +2,61 @@
 @model LMS.Pages.Student.UserCoursePointsDetailsModel
 @{
 }
+
+<h2>@Model.UserEntity.FirstName @Model.UserEntity.LastName activities</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Activity name
+            </th>
+            <th>
+                Activity type
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Earned points
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.ActivitiesWithResponse) {
+            <tr>
+            <td>
+                 @Html.DisplayFor(modelItem => item.Activity.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activity.ActivityType)
+            </td>
+            <td>
+                @if(item.UserResponse == null)
+                {
+                        <span>not responded</span>
+                } else if(item.UserResponse.Status == ActivityStatus.Pending)
+                {
+                    <span>send for evaluation</span>
+                } else if(item.UserResponse.Status == ActivityStatus.Assessed || item.UserResponse.Status == ActivityStatus.QuizEnded)
+                {
+                    <span>assessed</span>
+                }
+                
+            </td>
+            <td>
+                @if(item.UserResponse == null)
+                {
+                    <span>0/@item.Activity.Points</span>
+                } else if(item.UserResponse.EarnedPoints == null)
+                {
+                    <span>0/@item.Activity.Points</span>
+                } else
+                {
+                    <span>@item.UserResponse.EarnedPoints/@item.Activity.Points</span>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

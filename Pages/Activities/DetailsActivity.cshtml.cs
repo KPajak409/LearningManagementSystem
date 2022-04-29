@@ -31,6 +31,8 @@ namespace LMS.Pages.Activities
         public IList<FileModel> DownloadedFiles { get; set; }
         [BindProperty]
         public Course Course { get; set; }
+        [BindProperty]
+        public string Error { get; set; }
 
         public DetailsActivityModel(LMS.Data.ApplicationDbContext context, IWebHostEnvironment environment, UserManager<User> userManager, IAuthorizationService authorizationService)
         {
@@ -132,7 +134,6 @@ namespace LMS.Pages.Activities
 
         public async Task<IActionResult> OnPostAsync()
         {
-            
             if (Files.Count > 0)
             {               
                 var filePaths = new List<string>();

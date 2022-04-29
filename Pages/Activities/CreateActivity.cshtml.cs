@@ -32,6 +32,8 @@ namespace LMS.Pages.Activities
         public IList<IFormFile> Files { get; set; } = new List<IFormFile>();
         [BindProperty]
         public string FileName { get; set; } = string.Empty;
+        [BindProperty]
+        public string Error { get; set; }
 
         public IActionResult OnGet()
         {
@@ -46,7 +48,18 @@ namespace LMS.Pages.Activities
             {
                 return Page();
             }
-            
+            if(Activity.StartTime > Activity.EndTime)
+            {
+
+                Error = "Start time must be before end time.";
+                return Page();
+            }
+            if (Activity.EndTime < DateTime.Now)
+            {
+
+                Error = "End time should be in the future.";
+                return Page();
+            }
             if (Files.Count > 0)
             {
                 var size = Files.Sum(f => f.Length);

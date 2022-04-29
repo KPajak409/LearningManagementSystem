@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace LMS.Data
 {
@@ -12,6 +13,7 @@ namespace LMS.Data
         public int CourseId { get; set; }
         public virtual Course Course { get; set; }
         public DateTime? StartTime { get; set; } 
+
         public DateTime? EndTime { get; set; } 
         public ActivityType ActivityType { get; set; }
         public virtual ICollection<Question> Questions { get; set; }

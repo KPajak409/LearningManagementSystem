@@ -21,17 +21,21 @@ namespace LMS.Pages.Sections
 
         [BindProperty]
         public Section Section { get; set; }
+        [BindProperty]
+        public string Error { get; set; }
+        [BindProperty]
+        public int CourseId { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? sectionId, int courseId)
         {
-            if (id == null)
+            if (sectionId == null)
             {
                 return NotFound();
             }
 
             Section = await _context.Sections
-                .Include(s => s.Course).FirstOrDefaultAsync(m => m.Id == id);
-
+                .Include(s => s.Course).FirstOrDefaultAsync(m => m.Id == sectionId);
+            CourseId = courseId;
             if (Section == null)
             {
                 return NotFound();
@@ -39,35 +43,41 @@ namespace LMS.Pages.Sections
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int? sectionId)
         {
-            if (id == null)
+            if (sectionId == null)
             {
                 return NotFound();
             }
 
-            Section = await _context.Sections.FindAsync(id);
-
+            Section = await _context.Sections
+                .Include(s => s.Activities)
+                .FirstOrDefaultAsync(s => s.Id == sectionId);
+            
             if (Section != null)
             {
-                var sortedSections = _context.Sections
-                .Where(x => x.CourseId == Section.CourseId && 
-                            x.Position > Section.Position)
-                .OrderBy(x => x.Position).ToList();
+                if(Section.Activities == null)
+                {             
+                    var sortedSections = _context.Sections
+                    .Where(x => x.CourseId == Section.CourseId && x.Position > Section.Position)
+                    .OrderBy(x => x.Position)
+                    .ToList();
 
-                foreach (var section in sortedSections)
-                    section.Position -= 1;
-                _context.Sections.Remove(Section);
-                await _context.SaveChangesAsync();
+                    foreach (var section in sortedSections)
+                        section.Position -= 1;
+                    _context.Sections.Remove(Section);
+                    await _context.SaveChangesAsync();
+                }
+                else 
+                {
+                    Error = "You can't delete section, when there is atleast one activity. Delete all activities in section to proceed.";
+                    return Page();
+                }
             }
 
             return RedirectToPage("../Courses/CourseEditMode", new { id = Section.CourseId });
         }
 
-        private static int first_available_number(List<Section> sections)
-        {
 
-            return 1;
-        }
     }
 }

@@ -6,13 +6,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Course.Users[0].FirstName)
+                First Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Course.Users[0].LastName)
+                Last Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Course.Users[0].Email)
+                E-mail
             </th>
             @if(User.IsInRole("Admin") || User.IsInRole("Teacher"))
             {
@@ -41,7 +41,8 @@
                     @user.AchievedPoints/@Html.DisplayFor(model => model.TotalPoints) 
                 </td>                        
                 <td>
-                    <a class="btn btn-warning" asp-page="./UserResponseDetails">Details</a>
+                    <a class="btn btn-warning" asp-page="../Student/StudentCoursePoints" asp-route-studentId="@user.UserEntity.Id" asp-route-courseId="@Model.Course.Id">Details</a>
+                    <a class="btn btn-warning" asp-page="./RemoveUserFromCourse" asp-route-studentId="@user.UserEntity.Id" asp-route-courseId="@Model.Course.Id">Remove</a>
                 </td>
             }          
         </tr>

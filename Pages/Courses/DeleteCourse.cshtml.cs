@@ -10,6 +10,7 @@ using LMS;
 using LMS.Data;
 using Microsoft.AspNetCore.Authorization;
 using LMS.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace LMS.Pages.Courses
 {
@@ -17,11 +18,14 @@ namespace LMS.Pages.Courses
     {
         private readonly ApplicationDbContext _context;
         private readonly IAuthorizationService _authorizationService;
+        private readonly UserManager<User> _userManager;
 
-        public DeleteCourseModel(ApplicationDbContext context, IAuthorizationService authorizationService)
+        public DeleteCourseModel(ApplicationDbContext context, IAuthorizationService authorizationService, UserManager<User> userManager)
         {
             _context = context;
             _authorizationService = authorizationService;
+            _userManager = userManager;
+
         }
 
         [BindProperty]
@@ -62,8 +66,13 @@ namespace LMS.Pages.Courses
                 _context.Courses.Remove(Course);
                 await _context.SaveChangesAsync();
             }
+            var user = await _userManager.GetUserAsync(User);
+            if (await _userManager.IsInRoleAsync(user, "Teacher"))
+                return RedirectToPage("../Teacher/Index");
+            if (await _userManager.IsInRoleAsync(user, "Admin"))
+                return RedirectToPage("../Admin/Index");
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./CourseList");
         }
     }
 }

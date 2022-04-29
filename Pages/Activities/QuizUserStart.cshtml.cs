@@ -22,7 +22,8 @@ namespace LMS.Pages.Activities
         public IList<Question> Questions { get; set; }
         [BindProperty]
         public IList<Answer> Answers { get; set; }
-
+        [BindProperty]
+        public int CourseId { get; set; }
         public QuizUserStartModel(LMS.Data.ApplicationDbContext context, UserManager<User> userManager)
         {
             _userManager = userManager;
@@ -30,8 +31,9 @@ namespace LMS.Pages.Activities
         }
         
 
-        public async Task<IActionResult> OnGetAsync(int activityId)
+        public async Task<IActionResult> OnGetAsync(int activityId, int courseId)
         {
+            CourseId = courseId;
             Questions = await _context.Questions
                 .Include(q => q.Activity)
                 .Include(q => q.Answers)
@@ -42,9 +44,11 @@ namespace LMS.Pages.Activities
             {
                 Answers.AddRange(question.Answers);
             }
+
+            var user = await _userManager.GetUserAsync(User);
             var userResponse = await _context.ActivityUserResponses
                 .Include(x => x.Activity)
-                .Where(x => x.ActivityId == activityId)
+                .Where(x => x.User.Id == user.Id)
                 .FirstOrDefaultAsync();
             if(userResponse == null)
                 return Page();
@@ -52,7 +56,7 @@ namespace LMS.Pages.Activities
             return RedirectToPage("QuizDetails", new { activityId = activityId});
         }
 
-        public async Task<IActionResult> OnPostAsync(List<Answer> answers)
+        public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             var userResponse = new ActivityUserResponse();
@@ -60,17 +64,35 @@ namespace LMS.Pages.Activities
             userResponse.ActivityId = ActivityId;
             userResponse.Status = ActivityStatus.QuizEnded;
             userResponse.EarnedPoints = 0;
-            var dbAnswers = await _context.Answers
-                .Where(a => answers.Contains(a))
+            var dbQuestions = await _context.Questions
+                .Include(q => q.Answers)
+                .Include(q => q.Activity)
+                .Where(q => q.ActivityId == ActivityId)
                 .ToListAsync();
-            for(var i = 0; i < answers.Count; i++)
+
+            int numberOfCorrectAnswers;
+            for(int i = 0; i < Questions.Count;i++)
             {
-                if(dbAnswers[i].IsCorrect)
-                    userResponse.EarnedPoints += 1;
+                numberOfCorrectAnswers = dbQuestions[i].Answers.Count(a => a.IsCorrect);
+                for (int j = 0; j < Questions[i].Answers.Count;j++)
+                {
+                    if (numberOfCorrectAnswers > 1)
+                    {
+                        if(dbQuestions[i].Answers[j].IsCorrect)                        
+                            if (Questions[i].Answers[j].IsSelected == dbQuestions[i].Answers[j].IsCorrect)
+                                userResponse.EarnedPoints += (1.0m / numberOfCorrectAnswers);                                                    
+                    } 
+                    else
+                    {
+                        if (dbQuestions[i].Answers[j].IsCorrect)
+                            if (Questions[i].Answers[j].IsSelected == dbQuestions[i].Answers[j].IsCorrect)
+                                userResponse.EarnedPoints += 1;
+                    }
+                }
             }
             _context.ActivityUserResponses.Add(userResponse);
             await _context.SaveChangesAsync();
-            return RedirectToPage("QuizDetails", new { activityId = ActivityId});
+            return RedirectToPage("QuizDetails", new { activityId = ActivityId, courseId = CourseId});
         }
     }
 }

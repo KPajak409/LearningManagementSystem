@@ -15,7 +15,7 @@
         <div class="row border border-dark bg-light" id="heading">
             <div class="col-3 border border-dark">Email</div>
             <div class="col-3 border border-dark">First name</div>
-            <div class="col-3 border border-dark">LastName</div>
+            <div class="col-3 border border-dark">Last name</div>
             <div class="col-3 border border-dark">Is selected</div>
         </div>
 
@@ -41,7 +41,7 @@
 
                         <input asp-for="@Model.Users[i].LastName" readonly class="form-control bg-light border-0" />
                      </div>
-                    <div class="col border-dark bg-light form-group" id="userCheck">
+                    <div class="col border-dark bg-light form-group d-flex flex-row justify-content-around align-items-center" id="userCheck">
                         <input type="checkbox" asp-for="@Model.Users[i].IsSelected" id="@selector"/>  
                         <input type="hidden" asp-for="@Model.Users[i].Id"/>
                         <input type="submit" value="Assign" id="@button" asp-route-id="@Model.Group.Id" class="btn btn-primary pt-0 pb-0"/>

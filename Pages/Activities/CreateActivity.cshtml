@@ -7,6 +7,7 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <h1>Create Activity</h1>
 <hr />
+<div class="text-danger fs-2">@Model.Error</div>
 <div class="row">
     <div class="col-md-6">
         <form enctype="multipart/form-data" method="post">
@@ -23,12 +24,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Activity.StartTime" class="control-label"></label>
-                <input disabled asp-for="Activity.StartTime" class="form-control date" />
+                <input disabled asp-for="Activity.StartTime" class="form-control date" id="startTime"/>
                 <span asp-validation-for="Activity.StartTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Activity.EndTime" class="control-label"></label>
-                <input disabled asp-for="Activity.EndTime" class="form-control date" />
+                <input disabled asp-for="Activity.EndTime" class="form-control date" id="endTime" />
                 <span asp-validation-for="Activity.EndTime" class="text-danger"></span>
             </div>
             <div class="form-group mt-1 mb-1">
@@ -37,7 +38,7 @@
             </div>
             <div class="form-group" id="pointsField">
                 <label asp-for="Activity.Points" class="control-label"></label>
-                <input disabled asp-for="Activity.Points" class="form-control" id="textPoints" />
+                <input disabled type="number" min="0" asp-for="Activity.Points" class="form-control" id="textPoints" />
                 <span asp-validation-for="Activity.Points" class="text-danger"></span>
                 <span style="font-size: 10px">If quiz selected, the number of points is equal to number of questions in quiz</span>
             </div>
@@ -63,6 +64,12 @@
     
 }
   <script>
+      $(document).ready(function () {
+          $('#selectActivity').val('0');
+          $('#selectActivity').val('0').change();
+          $('.date').val('');
+          $('#textPoints').val('');
+      });
           $("#selectActivity").change(function() {
                 if($("#selectActivity").val() == "0") {
                     $(".date").prop("disabled", true);
@@ -84,9 +91,16 @@
                     $("#files").prop("disabled", true);
                     $("#files").val('');
                     
-                } 
-                
-                
+                }           
             });
                  
+        $(".date").change(function() {
+            var startTime = new Date(('#startTime').val);
+            var endTime = new Date(('#endTime').val);
+            if(startTime > endTime)
+            {
+                alert("Please select different end date");
+                console.log("siema");
+            }
+        });
     </script>
