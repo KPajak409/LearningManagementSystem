@@ -13,7 +13,7 @@ namespace LMS.Pages.Activities
             _context = context;
         }
         public List<ActivityUserResponse> ActivityUserResponses { get; set; }
-        public int ActivityId { get; set; }
+        public Activity Activity { get; set; }
         public int CourseId { get; set; }
 
         public async Task<IActionResult> OnGet(int activityId, int courseId)
@@ -23,7 +23,8 @@ namespace LMS.Pages.Activities
                 .Include(aur => aur.Activity)
                 .Where(aur => aur.ActivityId == activityId)
                 .ToListAsync();
-            ActivityId = activityId;
+            Activity = await _context.Activities
+                .FirstOrDefaultAsync(a => a.Id == activityId);
             CourseId = courseId;
 
             return Page();

@@ -78,7 +78,7 @@ else
      <div>  
         @if (!User.IsInRole("Student"))
         {
-            <a asp-page="./EditActivity" asp-route-activityId="@Model.Activity.Id" class="btn btn-primary">Edit</a>
+            
             <a asp-page="./DeleteActivity" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.Activity.Course.Id" class="btn btn-danger">Delete</a>
         }
      </div>

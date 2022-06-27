@@ -46,8 +46,10 @@ namespace LMS.Pages.Activities
         {
 
             Activity = await _context.Activities.FindAsync(Activity.Id);
-
-            var authorizationResult = _authorizationService.AuthorizeAsync(User, Activity.Course, new ResourceOperationRequirement(ResourceOperation.Delete)).Result;
+            var course = await _context.Courses
+                .Include(c => c.Users)
+                .FirstOrDefaultAsync(c => c.Id == CourseId);
+            var authorizationResult = _authorizationService.AuthorizeAsync(User, course, new ResourceOperationRequirement(ResourceOperation.Delete)).Result;
             if (!authorizationResult.Succeeded)
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
 

@@ -56,7 +56,7 @@ namespace LMS.Pages.Sections
             
             if (Section != null)
             {
-                if(Section.Activities == null)
+                if(!Section.Activities.Any())
                 {             
                     var sortedSections = _context.Sections
                     .Where(x => x.CourseId == Section.CourseId && x.Position > Section.Position)

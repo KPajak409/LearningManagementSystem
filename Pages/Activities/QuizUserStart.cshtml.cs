@@ -69,18 +69,25 @@ namespace LMS.Pages.Activities
                 .Include(q => q.Activity)
                 .Where(q => q.ActivityId == ActivityId)
                 .ToListAsync();
-
+            decimal pointsTmp;
             int numberOfCorrectAnswers;
             for(int i = 0; i < Questions.Count;i++)
             {
+                pointsTmp = 0;
                 numberOfCorrectAnswers = dbQuestions[i].Answers.Count(a => a.IsCorrect);
                 for (int j = 0; j < Questions[i].Answers.Count;j++)
                 {
                     if (numberOfCorrectAnswers > 1)
                     {
-                        if(dbQuestions[i].Answers[j].IsCorrect)                        
-                            if (Questions[i].Answers[j].IsSelected == dbQuestions[i].Answers[j].IsCorrect)
-                                userResponse.EarnedPoints += (1.0m / numberOfCorrectAnswers);                                                    
+                                               
+                            if (Questions[i].Answers[j].IsSelected == dbQuestions[i].Answers[j].IsCorrect && dbQuestions[i].Answers[j].IsCorrect == true)
+                            {
+                                pointsTmp += (1.0m / numberOfCorrectAnswers);
+                            } else if (Questions[i].Answers[j].IsSelected == true &&  dbQuestions[i].Answers[j].IsCorrect == false)
+                            {
+                                pointsTmp = 0;
+                                break;
+                            }
                     } 
                     else
                     {
@@ -89,6 +96,8 @@ namespace LMS.Pages.Activities
                                 userResponse.EarnedPoints += 1;
                     }
                 }
+                userResponse.EarnedPoints += pointsTmp;
+
             }
             _context.ActivityUserResponses.Add(userResponse);
             await _context.SaveChangesAsync();

@@ -21,10 +21,10 @@ namespace LMS.Pages.Admin
 
         public IList<Course> Courses { get;set; }
 
-        /*public async Task OnGetAsync()
+        public async Task OnGetAsync()
         {
             Courses = await _context.Courses
-                .Include(c => c.Author).ToListAsync();
-        }*/
+                .ToListAsync();
+        }
     }
 }

@@ -13,7 +13,11 @@
     <div class="col-md-4">
         <form enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="@Model.Activity.Course"/>
+            <input type="hidden" asp-for="Course.Id"/>
+            <input type="hidden" asp-for="Activity.Id"/>
+            <input type="hidden" asp-for="Activity.ActivityType"/>
+            <input type="hidden" asp-for="Activity.FileNames"/>
+            <input type="hidden" asp-for="Course.Name" />
             <div class="form-group">
                 <label asp-for="Activity.Name" class="control-label"></label>
                 <input asp-for="Activity.Name" class="form-control" />
@@ -55,7 +59,7 @@
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="../Courses/DetailsCourse" asp-route-courseId="@Model.Course.Id">Back to List</a>
 </div>
 
 @section Scripts {

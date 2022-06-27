@@ -24,14 +24,18 @@ namespace LMS.Pages.Activities
 
         [BindProperty]
         public Activity Activity { get; set; }
+        [BindProperty]
+        public Course Course { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? activityId)
+        public async Task<IActionResult> OnGetAsync(int? activityId, int courseId)
         {
             if (activityId == null)
             {
                 return NotFound();
             }
-
+            Course = await _context.Courses
+                .Include(c => c.Users)
+                .FirstOrDefaultAsync(c => c.Id == courseId);
             Activity = await _context.Activities
                 .Include(a => a.Course).FirstOrDefaultAsync(m => m.Id == activityId);
 
@@ -51,8 +55,10 @@ namespace LMS.Pages.Activities
             {
                 return Page();
             }
-    
-            var authorizationResult = _authorizationService.AuthorizeAsync(User, Activity.Course, new ResourceOperationRequirement(ResourceOperation.Update)).Result;
+            Course = await _context.Courses
+                .Include(c => c.Users)
+                .FirstOrDefaultAsync(c => c.Id == Course.Id);
+            var authorizationResult = _authorizationService.AuthorizeAsync(User, Course, new ResourceOperationRequirement(ResourceOperation.Update)).Result;
             if (!authorizationResult.Succeeded)
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
 
@@ -74,7 +80,7 @@ namespace LMS.Pages.Activities
                 }
             }
 
-            return RedirectToPage("./DetailsActivity", new { activityId = Activity.Id, courseId = Activity.Course.Id});
+            return RedirectToPage("./DetailsActivity", new { activityId = Activity.Id, courseId = Course.Id});
         }
 
         private bool ActivityExists(int id)

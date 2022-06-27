@@ -162,7 +162,7 @@ namespace LMS.Areas.Identity.Pages.Account
             }
             if (await _userManager.IsInRoleAsync(user, "Admin"))
             {
-                returnUrl = "~/Admin/Index";
+                returnUrl = "~/Courses/CourseList";
             }
             return returnUrl;
         }

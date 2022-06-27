@@ -8,9 +8,13 @@
         <h5 class="card-title">@Model.Course.AuthorName</h5>
         <p class="card-text">@Model.Course.Description</p>
         <form method="post">
+            @if(Model.Course.PasswordHash != null)
+            {
+                <input asp-for=@Model.Password/>
+            }
             <input type="hidden" asp-for="@Model.Course.Id" />
-            <input asp-for=@Model.Password/>
-             <input type="submit" value="Sign up" class="btn btn-primary"></input>
+            
+            <input type="submit" value="Sign up" class="btn btn-primary"></input>
         </form>
         @if(!string.IsNullOrEmpty(Model.Error))
         {

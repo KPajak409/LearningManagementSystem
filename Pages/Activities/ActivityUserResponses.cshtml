@@ -46,5 +46,10 @@
 }
     </tbody>
 </table>
-
-<a class="btn btn-primary m-2" asp-page="./ActivityDetails" asp-route-activityId="@Model.ActivityId" asp-route-courseId="@Model.CourseId">Back to activity</a>
+@if(Model.Activity.ActivityType == ActivityType.Quiz)
+{
+    <a class="btn btn-primary m-2" asp-page="./QuizDetails" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.CourseId">Back to activity</a>
+} else
+{
+    <a class="btn btn-primary m-2" asp-page="./DetailsActivity" asp-route-activityId="@Model.Activity.Id" asp-route-courseId="@Model.CourseId">Back to activity</a>    
+}
